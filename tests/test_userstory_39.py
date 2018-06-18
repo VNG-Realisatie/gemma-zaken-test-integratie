@@ -3,12 +3,15 @@ Test that the various service reference implementations play well together.
 
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
+import uuid
+
 from zit.client import Client
 
 
 def test_melding_overlast():
     ztc_client = Client('ztc')
     zrc_client = Client('zrc')
+    orc_client = Client('orc')
 
     # retrieve zaaktype/statustype from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_pk=1, id=1)
@@ -37,3 +40,19 @@ def test_melding_overlast():
 
     zaak = zrc_client.retrieve('zaak', id=zaak_id)
     assert zaak['status'] == status['url']
+
+    # assign address information
+    verblijfsobject = orc_client.create('verblijfsobject', {
+        'identificatie': uuid.uuid4().hex,
+        'hoofdadres': {
+            'straatnaam': 'Keizersgracht',
+            'postcode': '1015 CJ',
+            'woonplaatsnaam': 'Amsterdam',
+            'huisnummer': '117',
+        }
+    })
+    zaak_object = zrc_client.create('zaakobject', {
+        'zaak': zaak['url'],
+        'object': verblijfsobject['url'],
+    })
+    assert 'url' in zaak_object
