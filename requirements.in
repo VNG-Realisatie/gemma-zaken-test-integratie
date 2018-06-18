@@ -1,4 +1,6 @@
 pip-tools
 requests
 
+isort
 pytest
+pyyaml
