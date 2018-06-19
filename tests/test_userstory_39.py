@@ -4,6 +4,7 @@ Test that the various service reference implementations play well together.
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
 import uuid
+import os, tempfile
 
 from zit.client import Client
 
@@ -12,6 +13,7 @@ def test_melding_overlast():
     ztc_client = Client('ztc')
     zrc_client = Client('zrc')
     orc_client = Client('orc')
+    drc_client = Client('drc')
 
     # retrieve zaaktype/statustype from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_pk=1, id=1)
@@ -56,3 +58,31 @@ def test_melding_overlast():
         'object': verblijfsobject['url'],
     })
     assert 'url' in zaak_object
+
+    # Create a temporary file to test file uploading
+    fd, path = tempfile.mkstemp()
+    # This file can't be empty or the API throws an error
+    with open(path, 'w') as tmp:
+        tmp.write('test_content')
+
+    try:
+        with open(path, 'rb') as tmp:
+            enkelvoudiginformatieobject = drc_client.create_form('enkelvoudiginformatieobject', {
+            'identificatie': uuid.uuid4().hex,
+            'bronorganisatie' : '1',
+            'creatiedatum' : zaak['registratiedatum'],
+            'titel' : 'attachment',
+            'auteur' : 'test_auteur',
+            'formaat' : 'test_format',
+            'taal' : 'dutch',
+
+            }, {'inhoud': tmp })
+    finally:
+        os.remove(path)
+
+    # Random test
+    assert 'creatiedatum' in enkelvoudiginformatieobject
+    assert enkelvoudiginformatieobject['creatiedatum'] == zaak['registratiedatum']
+    # TODO: assert enkelvoudiginformatieobject['inhoud'] == ???
+
+    # TODO: some way to get the ID to retrieve after creating
