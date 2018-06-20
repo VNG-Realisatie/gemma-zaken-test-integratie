@@ -82,6 +82,10 @@ class Client:
 
     def request(self, path, method='GET', **kwargs):
         url = urljoin(self.base_url, path)
+        headers = kwargs.pop('headers', {})
+        headers.setdefault('Accept', 'application/json')
+        headers.setdefault('Content-Type', 'application/json')
+        kwargs['headers'] = headers
         return requests.request(method, url, **kwargs)
 
     def fetch_schema(self):
@@ -101,15 +105,5 @@ class Client:
         operation_id = f'{resource}_create'
         url = get_operation_url(self.schema, operation_id, **path_kwargs)
         response = self.request(url, method='POST', json=data)
-        assert response.status_code == 201, response.json()
-        return response.json()
-
-    def create_form(self, resource: str, data: dict, files: dict, **path_kwargs):
-        '''
-        This function allows to upload files (form/multipart media type)
-        '''
-        operation_id = f'{resource}_create'
-        url = get_operation_url(self.schema, operation_id, **path_kwargs)
-        response = self.request(url, method='POST', data=data, files=files)
         assert response.status_code == 201, response.json()
         return response.json()

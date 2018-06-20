@@ -3,17 +3,16 @@ Test that the various service reference implementations play well together.
 
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
+
+
 import uuid
+from base64 import b64encode
 
-import os, tempfile, base64
-from PIL import Image
-from io import BytesIO
-import urllib.request
-
+import requests
 from zit.client import Client
 
 
-def test_melding_overlast():
+def test_melding_overlast(text_file, png_file):
     ztc_client = Client('ztc')
     zrc_client = Client('zrc')
     orc_client = Client('orc')
@@ -63,35 +62,23 @@ def test_melding_overlast():
     })
     assert 'url' in zaak_object
 
-
-    '''
-    Create temporary files to test file uploading
-    '''
-    # Text file (can't be empty or the API throws an error)
-    fd, txt_path = tempfile.mkstemp()
-    with open(txt_path, 'w') as tmp:
-        tmp.write('some additional information')
-
-    # Image (png format)
-    im_format = 'png'
-    im = Image.new('RGB', (512, 512), 'blue') #plain blue square
-    buffered = BytesIO()
-    im.save(buffered, format=im_format)
-
     '''
     Upload the files with POST /enkelvoudiginformatieobject (DRC)
     '''
 
-    text_attachment = drc_client.create_form('enkelvoudiginformatieobject', {
-    'identificatie': uuid.uuid4().hex,
-    'bronorganisatie' : '1',
-    'creatiedatum' : zaak['registratiedatum'],
-    'titel' : 'detailed summary',
-    'auteur' : 'test_auteur',
-    'formaat' : 'txt',
-    'taal' : 'english',
-    }, {
-        'inhoud': open(txt_path, 'rb')
+    byte_content = text_file.read() # text_file comes from pytest fixture
+    base64_bytes = b64encode(byte_content)
+    base64_string = base64_bytes.decode('utf-8')
+
+    text_attachment = drc_client.create('enkelvoudiginformatieobject', {
+        'identificatie': uuid.uuid4().hex,
+        'bronorganisatie': '1',
+        'creatiedatum': zaak['registratiedatum'],
+        'titel': 'detailed summary',
+        'auteur': 'test_auteur',
+        'formaat': 'txt',
+        'taal': 'english',
+        'inhoud': base64_string
     })
 
     # Test if the EnkelvoudigInformatieObject stored has the right information
@@ -103,21 +90,21 @@ def test_melding_overlast():
     text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=txt_object_id)
 
     # Test if the attached filed is our initial file
-    with open(txt_path, 'rb') as tmp:
-        assert urllib.request.urlopen(text_attachment['inhoud']).read() == tmp.read()
+    assert requests.get(text_attachment['inhoud']).content == byte_content
 
-    os.remove(txt_path) #remove the temporary file immediatly
+    byte_content = png_file.getvalue()
+    base64_bytes = b64encode(byte_content)
+    base64_string = base64_bytes.decode('utf-8')
 
-    image_attachment = drc_client.create_form('enkelvoudiginformatieobject', {
-    'identificatie': uuid.uuid4().hex,
-    'bronorganisatie' : '1',
-    'creatiedatum' : zaak['registratiedatum'],
-    'titel' : 'attachment',
-    'auteur' : 'test_auteur',
-    'formaat' : im_format,
-    'taal' : 'english',
-    }, {
-        'inhoud': buffered.getvalue()
+    image_attachment = drc_client.create('enkelvoudiginformatieobject', {
+        'identificatie': uuid.uuid4().hex,
+        'bronorganisatie': '1',
+        'creatiedatum': zaak['registratiedatum'],
+        'titel': 'attachment',
+        'auteur': 'test_auteur',
+        'formaat': 'png',
+        'taal': 'english',
+        'inhoud': base64_string
     })
 
     '''
@@ -145,4 +132,4 @@ def test_melding_overlast():
     image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=img_object_id)
 
     # Test if image correspond to our initial image
-    assert urllib.request.urlopen(image_attachment['inhoud']).read() == buffered.getvalue()
+    assert requests.get(image_attachment['inhoud']).content == byte_content
