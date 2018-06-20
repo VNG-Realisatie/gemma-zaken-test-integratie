@@ -4,7 +4,11 @@ Test that the various service reference implementations play well together.
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
 import uuid
-import os, tempfile
+
+import os, tempfile, base64
+from PIL import Image
+from io import BytesIO
+import urllib.request
 
 from zit.client import Client
 
@@ -59,30 +63,86 @@ def test_melding_overlast():
     })
     assert 'url' in zaak_object
 
-    # Create a temporary file to test file uploading
-    fd, path = tempfile.mkstemp()
-    # This file can't be empty or the API throws an error
-    with open(path, 'w') as tmp:
-        tmp.write('test_content')
 
-    try:
-        with open(path, 'rb') as tmp:
-            enkelvoudiginformatieobject = drc_client.create_form('enkelvoudiginformatieobject', {
-            'identificatie': uuid.uuid4().hex,
-            'bronorganisatie' : '1',
-            'creatiedatum' : zaak['registratiedatum'],
-            'titel' : 'attachment',
-            'auteur' : 'test_auteur',
-            'formaat' : 'test_format',
-            'taal' : 'dutch',
+    '''
+    Create temporary files to test file uploading
+    '''
+    # Text file (can't be empty or the API throws an error)
+    fd, txt_path = tempfile.mkstemp()
+    with open(txt_path, 'w') as tmp:
+        tmp.write('some additional information')
 
-            }, {'inhoud': tmp })
-    finally:
-        os.remove(path)
+    # Image (png format)
+    im_format = 'png'
+    im = Image.new('RGB', (512, 512), 'blue') #plain blue square
+    buffered = BytesIO()
+    im.save(buffered, format=im_format)
 
-    # Random test
-    assert 'creatiedatum' in enkelvoudiginformatieobject
-    assert enkelvoudiginformatieobject['creatiedatum'] == zaak['registratiedatum']
-    # TODO: assert enkelvoudiginformatieobject['inhoud'] == ???
+    '''
+    Upload the files with POST /enkelvoudiginformatieobject (DRC)
+    '''
 
-    # TODO: some way to get the ID to retrieve after creating
+    text_attachment = drc_client.create_form('enkelvoudiginformatieobject', {
+    'identificatie': uuid.uuid4().hex,
+    'bronorganisatie' : '1',
+    'creatiedatum' : zaak['registratiedatum'],
+    'titel' : 'detailed summary',
+    'auteur' : 'test_auteur',
+    'formaat' : 'txt',
+    'taal' : 'english',
+    }, {
+        'inhoud': open(txt_path, 'rb')
+    })
+
+    # Test if the EnkelvoudigInformatieObject stored has the right information
+    assert 'creatiedatum' in text_attachment
+    assert text_attachment['creatiedatum'] == zaak['registratiedatum']
+
+    # Retrieve the EnkelvoudigInformatieObject
+    txt_object_id = text_attachment['url'].rsplit('/')[-1]
+    text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=txt_object_id)
+
+    # Test if the attached filed is our initial file
+    with open(txt_path, 'rb') as tmp:
+        assert urllib.request.urlopen(text_attachment['inhoud']).read() == tmp.read()
+
+    os.remove(txt_path) #remove the temporary file immediatly
+
+    image_attachment = drc_client.create_form('enkelvoudiginformatieobject', {
+    'identificatie': uuid.uuid4().hex,
+    'bronorganisatie' : '1',
+    'creatiedatum' : zaak['registratiedatum'],
+    'titel' : 'attachment',
+    'auteur' : 'test_auteur',
+    'formaat' : im_format,
+    'taal' : 'english',
+    }, {
+        'inhoud': buffered.getvalue()
+    })
+
+    '''
+    Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
+    '''
+
+    ZaakInformatieObject_1 = zrc_client.create('zaakinformatieobject', {
+        'zaak': zaak['url'],
+        'informatieobject': text_attachment['url'],
+    })
+
+    ZaakInformatieObject_2 = zrc_client.create('zaakinformatieobject', {
+        'zaak': zaak['url'],
+        'informatieobject': image_attachment['url'],
+    })
+
+    informatie_object_id = ZaakInformatieObject_2['url'].rsplit('/')[-1]
+
+    # Test if it's possible to retrieve ZaakInformatieObject
+    some_informatie_object = zrc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
+
+    # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
+    assert 'informatieobject' in some_informatie_object
+    img_object_id = some_informatie_object['informatieobject'].rsplit('/')[-1]
+    image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=img_object_id)
+
+    # Test if image correspond to our initial image
+    assert urllib.request.urlopen(image_attachment['inhoud']).read() == buffered.getvalue()
