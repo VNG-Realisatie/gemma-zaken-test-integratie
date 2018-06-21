@@ -1,8 +1,6 @@
 import os
 from io import BytesIO
 
-from django.core.files import File
-
 import pytest
 from PIL import Image
 
