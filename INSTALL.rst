@@ -64,7 +64,7 @@ You can retrieve the source code using the following command:
 
    .. code-block:: bash
 
-        $ git clone https://github.com/maykinmedia/gemma-zaken-test-integratie.git drc
+        $ git clone https://github.com/maykinmedia/gemma-zaken-test-integratie.git
 
 Setting up virtualenv
 ^^^^^^^^^^^^^^^^^^^^^^
