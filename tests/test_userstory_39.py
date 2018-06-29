@@ -74,9 +74,9 @@ def test_melding_overlast(text_file, png_file):
         'identificatie': uuid.uuid4().hex,
         'bronorganisatie': '1',
         'creatiedatum': zaak['registratiedatum'],
-        'titel': 'detailed summary',
-        'auteur': 'test_auteur',
-        'formaat': 'txt',
+        'titel': 'text attachment',
+        'auteur': 'text author',
+        'formaat': 'text/plain',
         'taal': 'english',
         'inhoud': base64_string
     })
@@ -100,9 +100,9 @@ def test_melding_overlast(text_file, png_file):
         'identificatie': uuid.uuid4().hex,
         'bronorganisatie': '1',
         'creatiedatum': zaak['registratiedatum'],
-        'titel': 'attachment',
-        'auteur': 'test_auteur',
-        'formaat': 'png',
+        'titel': 'image attachment',
+        'auteur': 'image author',
+        'formaat': 'image/png',
         'taal': 'english',
         'inhoud': base64_string
     })
@@ -111,12 +111,12 @@ def test_melding_overlast(text_file, png_file):
     Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
     '''
 
-    ZaakInformatieObject_1 = zrc_client.create('zaakinformatieobject', {
+    ZaakInformatieObject_1 = drc_client.create('zaakinformatieobject', {
         'zaak': zaak['url'],
         'informatieobject': text_attachment['url'],
     })
 
-    ZaakInformatieObject_2 = zrc_client.create('zaakinformatieobject', {
+    ZaakInformatieObject_2 = drc_client.create('zaakinformatieobject', {
         'zaak': zaak['url'],
         'informatieobject': image_attachment['url'],
     })
@@ -124,7 +124,7 @@ def test_melding_overlast(text_file, png_file):
     informatie_object_id = ZaakInformatieObject_2['url'].rsplit('/')[-1]
 
     # Test if it's possible to retrieve ZaakInformatieObject
-    some_informatie_object = zrc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
+    some_informatie_object = drc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
 
     # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
     assert 'informatieobject' in some_informatie_object
