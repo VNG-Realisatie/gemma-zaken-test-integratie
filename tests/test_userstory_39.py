@@ -62,11 +62,8 @@ def test_melding_overlast(text_file, png_file):
     })
     assert 'url' in zaak_object
 
-    '''
-    Upload the files with POST /enkelvoudiginformatieobject (DRC)
-    '''
-
-    byte_content = text_file.read() # text_file comes from pytest fixture
+    # Upload the files with POST /enkelvoudiginformatieobject (DRC)
+    byte_content = text_file.read()  # text_file comes from pytest fixture
     base64_bytes = b64encode(byte_content)
     base64_string = base64_bytes.decode('utf-8')
 
@@ -74,10 +71,10 @@ def test_melding_overlast(text_file, png_file):
         'identificatie': uuid.uuid4().hex,
         'bronorganisatie': '1',
         'creatiedatum': zaak['registratiedatum'],
-        'titel': 'text attachment',
-        'auteur': 'text author',
+        'titel': 'text_extra.txt',
+        'auteur': 'anoniem',
         'formaat': 'text/plain',
-        'taal': 'english',
+        'taal': 'nl',
         'inhoud': base64_string
     })
 
@@ -100,34 +97,32 @@ def test_melding_overlast(text_file, png_file):
         'identificatie': uuid.uuid4().hex,
         'bronorganisatie': '1',
         'creatiedatum': zaak['registratiedatum'],
-        'titel': 'image attachment',
-        'auteur': 'image author',
+        'titel': 'afbeelding.png',
+        'auteur': 'anoniem',
         'formaat': 'image/png',
-        'taal': 'english',
+        'taal': 'nl',
         'inhoud': base64_string
     })
 
-    '''
-    Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
-    '''
-
-    ZaakInformatieObject_1 = drc_client.create('zaakinformatieobject', {
+    # Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
+    zaakinformatieobject_1 = drc_client.create('zaakinformatieobject', {
         'zaak': zaak['url'],
         'informatieobject': text_attachment['url'],
     })
+    assert 'url' in zaakinformatieobject_1
 
-    ZaakInformatieObject_2 = drc_client.create('zaakinformatieobject', {
+    zaakinformatieobject_2 = drc_client.create('zaakinformatieobject', {
         'zaak': zaak['url'],
         'informatieobject': image_attachment['url'],
     })
-
-    informatie_object_id = ZaakInformatieObject_2['url'].rsplit('/')[-1]
+    informatie_object_id = zaakinformatieobject_2['url'].rsplit('/')[-1]
 
     # Test if it's possible to retrieve ZaakInformatieObject
     some_informatie_object = drc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
 
     # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
     assert 'informatieobject' in some_informatie_object
+
     img_object_id = some_informatie_object['informatieobject'].rsplit('/')[-1]
     image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=img_object_id)
 

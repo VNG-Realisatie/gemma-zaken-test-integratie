@@ -1,5 +1,6 @@
 pip-tools
 requests
+Pillow
 
 isort
 pytest

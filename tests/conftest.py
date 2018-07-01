@@ -1,8 +1,6 @@
 import os
 from io import BytesIO
 
-from django.core.files import File
-
 import pytest
 from PIL import Image
 
@@ -10,9 +8,10 @@ from PIL import Image
 @pytest.fixture
 def text_file(request):
     """
-        Generates a temporary '.txt' file.
-        Returns file as a 'BufferedReader'
-        Use .read() function to get file content as bytes.
+    Generate a temporary '.txt' file.
+
+    Returns file as a file opened in binary read mode.
+    Use .read() function to get file content as bytes.
     """
 
     PATH = 'dummy.txt'
@@ -31,13 +30,13 @@ def text_file(request):
 @pytest.fixture
 def png_file(request):
     """
-        Generates a temporary '.png' image.
-        Returns file as a 'BytesIO'
-        Use .getvalue() function to get image content as bytes.
-    """
+    Generate a temporary '.png' image.
 
+    Returns file as a 'BytesIO' object.
+    Use .getvalue() to get image content as bytes.
+    """
     im_format = 'png'
-    im = Image.new('RGB', (1, 1), 'blue') # only 1 blue pixel
+    im = Image.new('RGB', (1, 1), 'blue')  # only 1 blue pixel
     buffered = BytesIO()
     im.save(buffered, format=im_format)
     return buffered
