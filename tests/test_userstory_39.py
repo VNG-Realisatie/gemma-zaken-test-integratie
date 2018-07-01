@@ -3,15 +3,20 @@ Test that the various service reference implementations play well together.
 
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
-import uuid
 
+
+import uuid
+from base64 import b64encode
+
+import requests
 from zit.client import Client
 
 
-def test_melding_overlast():
+def test_melding_overlast(text_file, png_file):
     ztc_client = Client('ztc')
     zrc_client = Client('zrc')
     orc_client = Client('orc')
+    drc_client = Client('drc')
 
     # retrieve zaaktype/statustype from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_pk=1, id=1)
@@ -56,3 +61,70 @@ def test_melding_overlast():
         'object': verblijfsobject['url'],
     })
     assert 'url' in zaak_object
+
+    # Upload the files with POST /enkelvoudiginformatieobject (DRC)
+    byte_content = text_file.read()  # text_file comes from pytest fixture
+    base64_bytes = b64encode(byte_content)
+    base64_string = base64_bytes.decode('utf-8')
+
+    text_attachment = drc_client.create('enkelvoudiginformatieobject', {
+        'identificatie': uuid.uuid4().hex,
+        'bronorganisatie': '1',
+        'creatiedatum': zaak['registratiedatum'],
+        'titel': 'text_extra.txt',
+        'auteur': 'anoniem',
+        'formaat': 'text/plain',
+        'taal': 'nl',
+        'inhoud': base64_string
+    })
+
+    # Test if the EnkelvoudigInformatieObject stored has the right information
+    assert 'creatiedatum' in text_attachment
+    assert text_attachment['creatiedatum'] == zaak['registratiedatum']
+
+    # Retrieve the EnkelvoudigInformatieObject
+    txt_object_id = text_attachment['url'].rsplit('/')[-1]
+    text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=txt_object_id)
+
+    # Test if the attached filed is our initial file
+    assert requests.get(text_attachment['inhoud']).content == byte_content
+
+    byte_content = png_file.getvalue()
+    base64_bytes = b64encode(byte_content)
+    base64_string = base64_bytes.decode('utf-8')
+
+    image_attachment = drc_client.create('enkelvoudiginformatieobject', {
+        'identificatie': uuid.uuid4().hex,
+        'bronorganisatie': '1',
+        'creatiedatum': zaak['registratiedatum'],
+        'titel': 'afbeelding.png',
+        'auteur': 'anoniem',
+        'formaat': 'image/png',
+        'taal': 'nl',
+        'inhoud': base64_string
+    })
+
+    # Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
+    zaakinformatieobject_1 = drc_client.create('zaakinformatieobject', {
+        'zaak': zaak['url'],
+        'informatieobject': text_attachment['url'],
+    })
+    assert 'url' in zaakinformatieobject_1
+
+    zaakinformatieobject_2 = drc_client.create('zaakinformatieobject', {
+        'zaak': zaak['url'],
+        'informatieobject': image_attachment['url'],
+    })
+    informatie_object_id = zaakinformatieobject_2['url'].rsplit('/')[-1]
+
+    # Test if it's possible to retrieve ZaakInformatieObject
+    some_informatie_object = drc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
+
+    # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
+    assert 'informatieobject' in some_informatie_object
+
+    img_object_id = some_informatie_object['informatieobject'].rsplit('/')[-1]
+    image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=img_object_id)
+
+    # Test if image correspond to our initial image
+    assert requests.get(image_attachment['inhoud']).content == byte_content
