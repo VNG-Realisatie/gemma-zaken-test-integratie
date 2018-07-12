@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  tests:
+    build:
+      context: ./
+    volumes:
+      - ${WORKSPACE}/reports:/testenv/reports
+    depends_on:
+      - zrc_web
+      - drc_web
+      - ztc_web
+      - orc_web

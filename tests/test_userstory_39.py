@@ -9,6 +9,7 @@ import uuid
 from base64 import b64encode
 
 import requests
+
 from zit.client import Client
 
 
@@ -29,7 +30,13 @@ def test_melding_overlast(text_file, png_file):
         'registratiedatum': '2018-06-18',
         'toelichting': 'Hout van een boot is afgebroken en blokkeert de '
                        'linkerdoorgang van een brug.',
-        'zaakgeometrie': 'POINT (4.910649523925713 52.37240093589432)',
+        'zaakgeometrie': {
+            'type': 'Point',
+            'coordinates': [
+                4.910649523925713,
+                52.37240093589432
+            ]
+        }
 
     })
     zaak_id = zaak['url'].rsplit('/')[-1]

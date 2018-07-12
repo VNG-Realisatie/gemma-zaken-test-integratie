@@ -94,6 +94,13 @@ class Client:
         swagger2openapi = Swagger2OpenApi(response.content)
         self._schema = swagger2openapi.convert()
 
+    def list(self, resource: str, **path_kwargs):
+        operation_id = f'{resource}_list'
+        url = get_operation_url(self.schema, operation_id, **path_kwargs)
+        response = self.request(url)
+        assert response.status_code == 200, response.json()
+        return response.json()
+
     def retrieve(self, resource: str, **path_kwargs):
         operation_id = f'{resource}_read'
         url = get_operation_url(self.schema, operation_id, **path_kwargs)
