@@ -4,6 +4,8 @@
 
 set -e  # exit on error
 
+# TODO: wait until all services are up
+
 echo "current directory: $(pwd)"
 
 echo "Writing config file..."
@@ -13,22 +15,22 @@ cat >config.yml <<EOL
 
 zrc:
   scheme: http
-  host: zrc_web
+  host: zrc.vng
   port: 8000
 
 drc:
   scheme: http
-  host: drc_web
+  host: drc.vng
   port: 8000
 
 ztc:
   scheme: http
-  host: ztc_web
+  host: ztc.vng
   port: 8000
 
 orc:
   scheme: http
-  host: orc_web
+  host: orc.vng
   port: 8000
 
 EOL

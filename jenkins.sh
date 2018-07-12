@@ -17,7 +17,17 @@ docker-compose \
     -p zit \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
-    run ztc_web \
-    python src/manage.py loaddata fixtures/ztc.json
+    run ztc.vng \
+        python src/manage.py loaddata fixtures/ztc.json
 
-# docker-compose -p zit -f ./docker-compose.yml run tests
+docker-compose \
+    -p zit \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    run tests
+
+docker-compose \
+    -p zit \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    down

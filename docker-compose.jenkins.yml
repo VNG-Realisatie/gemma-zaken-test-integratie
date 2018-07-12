@@ -1,13 +1,17 @@
 version: '3.4'
 
 services:
+  ztc.vng:
+    volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
+
   tests:
     build:
       context: ./
     volumes:
       - ${WORKSPACE}/reports:/testenv/reports
     depends_on:
-      - zrc_web
-      - drc_web
-      - ztc_web
-      - orc_web
+      - zrc.vng
+      - drc.vng
+      - ztc.vng
+      - orc.vng

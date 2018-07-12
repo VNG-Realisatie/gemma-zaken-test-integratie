@@ -22,3 +22,5 @@ pyyaml==3.12
 requests==2.19.0
 six==1.11.0               # via more-itertools, pip-tools, pytest
 urllib3==1.23             # via requests
+
+bpython

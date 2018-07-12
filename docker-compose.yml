@@ -28,7 +28,7 @@ services:
       - orc_postgres_data:/var/lib/postgresql/data
 
   # web
-  zrc_web:
+  zrc.vng:
     image: nlxio/gemma-zrc:us-52
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
@@ -39,7 +39,7 @@ services:
     depends_on:
       - zrc_db
 
-  drc_web:
+  drc.vng:
     image: nlxio/gemma-drc:0.1.7
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
@@ -50,7 +50,7 @@ services:
     depends_on:
       - drc_db
 
-  ztc_web:
+  ztc.vng:
     image: nlxio/gemma-ztc:0.1.4
     environment:
       - DJANGO_SETTINGS_MODULE=ztc.conf.docker
@@ -61,7 +61,7 @@ services:
     depends_on:
       - ztc_db
 
-  orc_web:
+  orc.vng:
     image: vngr/gemma-orc:latest
     environment:
       - DJANGO_SETTINGS_MODULE=orc.conf.docker
