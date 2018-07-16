@@ -27,6 +27,7 @@ def test_melding_overlast(text_file, png_file):
     # registreer zaak
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
+        'bronorganisatie': '517439943',
         'registratiedatum': '2018-06-18',
         'toelichting': 'Hout van een boot is afgebroken en blokkeert de '
                        'linkerdoorgang van een brug.',
