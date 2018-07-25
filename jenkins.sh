@@ -8,26 +8,28 @@ if [[ -z "$WORKSPACE" ]]; then
 fi
 
 docker-compose \
-    -p zit \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     build tests
 
 docker-compose \
-    -p zit \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    run ztc.vng \
+        python src/manage.py migrate
+
+docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     run ztc.vng \
         python src/manage.py loaddata fixtures/ztc.json
 
 docker-compose \
-    -p zit \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     run tests
 
 docker-compose \
-    -p zit \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     down
