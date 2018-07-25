@@ -12,6 +12,10 @@ import requests
 
 from zit.client import Client
 
+CATALOGUS_UUID = '03a8a943-98aa-4e5a-8643-ad2d81db4d6b'
+ZAAKTYPE_UUID = 'd1cb2212-0d9c-48fe-8a04-01317a9630f4'
+STATUSTYPE_UUID = 'b7402827-8e7f-4081-ac24-7911b8929f97'
+
 
 def test_melding_overlast(text_file, png_file):
     ztc_client = Client('ztc')
@@ -20,8 +24,11 @@ def test_melding_overlast(text_file, png_file):
     drc_client = Client('drc')
 
     # retrieve zaaktype/statustype from ZTC
-    zaaktype = ztc_client.retrieve('zaaktype', catalogus_pk=1, id=1)
-    status_type = ztc_client.retrieve('statustype', catalogus_pk=1, zaaktype_pk=1, id=1)
+    zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
+    status_type = ztc_client.retrieve(
+        'statustype', catalogus_uuid=CATALOGUS_UUID,
+        zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID)
+
     assert status_type['url'] in zaaktype['statustypen']
 
     # registreer zaak
@@ -40,7 +47,7 @@ def test_melding_overlast(text_file, png_file):
         }
 
     })
-    zaak_id = zaak['url'].rsplit('/')[-1]
+    zaak_uuid = zaak['url'].rsplit('/')[-1]
     assert 'url' in zaak
 
     # set status
@@ -51,7 +58,7 @@ def test_melding_overlast(text_file, png_file):
         'statustoelichting': 'Melding ontvangen',
     })
 
-    zaak = zrc_client.retrieve('zaak', id=zaak_id)
+    zaak = zrc_client.retrieve('zaak', uuid=zaak_uuid)
     assert zaak['status'] == status['url']
 
     # assign address information
@@ -91,8 +98,8 @@ def test_melding_overlast(text_file, png_file):
     assert text_attachment['creatiedatum'] == zaak['registratiedatum']
 
     # Retrieve the EnkelvoudigInformatieObject
-    txt_object_id = text_attachment['url'].rsplit('/')[-1]
-    text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=txt_object_id)
+    txt_object_uuid = text_attachment['url'].rsplit('/')[-1]
+    text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', uuid=txt_object_uuid)
 
     # Test if the attached filed is our initial file
     assert requests.get(text_attachment['inhoud']).content == byte_content
@@ -123,16 +130,16 @@ def test_melding_overlast(text_file, png_file):
         'zaak': zaak['url'],
         'informatieobject': image_attachment['url'],
     })
-    informatie_object_id = zaakinformatieobject_2['url'].rsplit('/')[-1]
+    informatie_object_uuid = zaakinformatieobject_2['url'].rsplit('/')[-1]
 
     # Test if it's possible to retrieve ZaakInformatieObject
-    some_informatie_object = drc_client.retrieve('zaakinformatieobject', id=informatie_object_id)
+    some_informatie_object = drc_client.retrieve('zaakinformatieobject', uuid=informatie_object_uuid)
 
     # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
     assert 'informatieobject' in some_informatie_object
 
-    img_object_id = some_informatie_object['informatieobject'].rsplit('/')[-1]
-    image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', id=img_object_id)
+    img_object_uuid = some_informatie_object['informatieobject'].rsplit('/')[-1]
+    image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', uuid=img_object_uuid)
 
     # Test if image correspond to our initial image
     assert requests.get(image_attachment['inhoud']).content == byte_content

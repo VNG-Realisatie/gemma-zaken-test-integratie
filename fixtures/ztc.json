@@ -3,6 +3,7 @@
     "model": "datamodel.catalogus",
     "pk": 1,
     "fields": {
+        "uuid": "03a8a943-98aa-4e5a-8643-ad2d81db4d6b",
         "domein": "DMN",
         "rsin": "123456789",
         "contactpersoon_beheer_naam": "John Doe",
@@ -38,6 +39,7 @@
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
+        "uuid": "bea99e8b-e10f-45ca-b39c-b22bd1cc48d0",
         "eigenschapnaam": "boot_naam",
         "definitie": "Naam van de boot die overlast veroorzaakt",
         "specificatie_van_eigenschap": 1,
@@ -53,6 +55,7 @@
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
+        "uuid": "af7009f1-a09e-467f-a167-f5f2ea276ac0",
         "eigenschapnaam": "melding_type",
         "definitie": "Het soort melding",
         "specificatie_van_eigenschap": 2,
@@ -80,6 +83,7 @@
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
+        "uuid": "b7402827-8e7f-4081-ac24-7911b8929f97",
         "is_van": 1,
         "statustype_omschrijving": "Melding geregistreerd",
         "statustype_omschrijving_generiek": "",
@@ -116,6 +120,7 @@
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
+        "uuid": "d1cb2212-0d9c-48fe-8a04-01317a9630f4",
         "zaaktype_identificatie": 1,
         "zaaktype_omschrijving": "Zwerfvuil op het water",
         "zaaktype_omschrijving_generiek": "",

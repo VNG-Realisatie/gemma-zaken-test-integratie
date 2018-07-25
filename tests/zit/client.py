@@ -61,6 +61,39 @@ class Swagger2OpenApi:
             shutil.rmtree(tempdir)
 
 
+def get_headers(spec: dict, operation: str) -> dict:
+    """
+    Extract required headers and use the default value from the API spec.
+    """
+    headers = {}
+
+    def filter_header_params(params: list):
+        return [
+            param for param in params
+            if param['in'] == 'header' and param['required']
+        ]
+
+    for path, methods in spec['paths'].items():
+        path_parameters = filter_header_params(methods.get('parameters', []))
+        for name, method in methods.items():
+            if name == 'parameters':
+                continue
+
+            if method['operationId'] != operation:
+                continue
+
+            method_parameters = filter_header_params(method.get('parameters', []))
+
+            for param in path_parameters + method_parameters:
+                enum = param['schema'].get('enum', [])
+                default = param['schema'].get('default')
+
+                assert len(enum) == 1 or default, "Can't choose an appropriate default header value"
+                headers[param['name']] = default or enum[0]
+
+    return headers
+
+
 class Client:
 
     _schema = None
@@ -80,11 +113,12 @@ class Client:
             self.fetch_schema()
         return self._schema
 
-    def request(self, path, method='GET', **kwargs):
+    def request(self, path: str, operation: str, method='GET', **kwargs):
         url = urljoin(self.base_url, path)
         headers = kwargs.pop('headers', {})
         headers.setdefault('Accept', 'application/json')
         headers.setdefault('Content-Type', 'application/json')
+        headers.update(get_headers(self.schema, operation))
         kwargs['headers'] = headers
         return requests.request(method, url, **kwargs)
 
@@ -97,20 +131,20 @@ class Client:
     def list(self, resource: str, **path_kwargs):
         operation_id = f'{resource}_list'
         url = get_operation_url(self.schema, operation_id, **path_kwargs)
-        response = self.request(url)
+        response = self.request(url, operation_id)
         assert response.status_code == 200, response.json()
         return response.json()
 
     def retrieve(self, resource: str, **path_kwargs):
         operation_id = f'{resource}_read'
         url = get_operation_url(self.schema, operation_id, **path_kwargs)
-        response = self.request(url)
+        response = self.request(url, operation_id)
         assert response.status_code == 200, response.json()
         return response.json()
 
     def create(self, resource: str, data: dict, **path_kwargs):
         operation_id = f'{resource}_create'
         url = get_operation_url(self.schema, operation_id, **path_kwargs)
-        response = self.request(url, method='POST', json=data)
+        response = self.request(url, operation_id, method='POST', json=data)
         assert response.status_code == 201, response.json()
         return response.json()
