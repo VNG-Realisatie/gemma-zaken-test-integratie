@@ -2,11 +2,7 @@ import os
 
 from zds_client import Client
 
-
-BASE_DIR = os.path.abspath(os.path.join(
-    os.path.dirname(__file__),
-    os.path.pardir,
-))
+from .constants import BASE_DIR
 
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.yml')
 

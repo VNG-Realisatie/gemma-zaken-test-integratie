@@ -10,7 +10,7 @@ from base64 import b64encode
 
 import requests
 
-from .clients import zrc_client, ztc_client, drc_client, orc_client
+from .clients import drc_client, orc_client, zrc_client, ztc_client
 from .constants import CATALOGUS_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
 
 

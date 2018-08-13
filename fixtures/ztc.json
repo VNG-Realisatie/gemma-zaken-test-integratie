@@ -71,10 +71,11 @@
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
-        "roltypeomschrijving": "APP melding overlast",
-        "roltypeomschrijving_generiek": "Initiator",
+        "uuid": "9abe479a-2bbc-4894-839e-58f90f98ecab",
+        "omschrijving": "APP melding overlast",
+        "omschrijving_generiek": "Initiator",
         "soort_betrokkene": "[\"app\", \"api\"]",
-        "is_van": 1
+        "zaaktype": 1
     }
 },
 {
@@ -107,10 +108,26 @@
     }
 },
 {
+    "model": "datamodel.productdienst",
+    "pk": 2,
+    "fields": {
+        "naam": "Straatnet",
+        "link": null
+    }
+},
+{
     "model": "datamodel.referentieproces",
     "pk": 1,
     "fields": {
         "naam": "zwerfvuil opruimen",
+        "link": null
+    }
+},
+{
+    "model": "datamodel.referentieproces",
+    "pk": 2,
+    "fields": {
+        "naam": "Reparatie voetpad",
         "link": null
     }
 },
@@ -132,7 +149,7 @@
         "handeling_initiator": "melden",
         "onderwerp": "Melding",
         "handeling_behandelaar": "verwijderen",
-        "doorlooptijd_behandeling": 1,
+        "doorlooptijd_behandeling": "30 00:00:00",
         "servicenorm_behandeling": null,
         "opschorting_aanhouding_mogelijk": "J",
         "verlenging_mogelijk": "J",
@@ -151,6 +168,48 @@
         "maakt_deel_uit_van": 1,
         "product_dienst": [
             1
+        ],
+        "formulier": [],
+        "is_deelzaaktype_van": []
+    }
+},
+{
+    "model": "datamodel.zaaktype",
+    "pk": 2,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "42e85d1e-f3fd-40be-b39a-72b67f73ea8d",
+        "zaaktype_identificatie": 2,
+        "zaaktype_omschrijving": "Losse stoeptegel",
+        "zaaktype_omschrijving_generiek": "",
+        "zaakcategorie": null,
+        "doel": "Melden van kapotte openbare wegen",
+        "aanleiding": "Melding van defect aan voetpaden",
+        "toelichting": null,
+        "indicatie_intern_of_extern": "Intern",
+        "handeling_initiator": "melden",
+        "onderwerp": "Melding losse stoeptegel",
+        "handeling_behandelaar": "behandelen",
+        "doorlooptijd_behandeling": "14 00:00:00",
+        "servicenorm_behandeling": null,
+        "opschorting_aanhouding_mogelijk": "J",
+        "verlenging_mogelijk": "J",
+        "verlengingstermijn": 14,
+        "trefwoord": "[]",
+        "archiefclassificatiecode": null,
+        "vertrouwelijkheidaanduiding": "OPENBAAR",
+        "verantwoordelijke": "BAM",
+        "publicatie_indicatie": "J",
+        "publicatietekst": null,
+        "verantwoordingsrelatie": "[]",
+        "versiedatum": "2018-06-04",
+        "referentieproces": 2,
+        "broncatalogus": null,
+        "bronzaaktype": null,
+        "maakt_deel_uit_van": 1,
+        "product_dienst": [
+            2
         ],
         "formulier": [],
         "is_deelzaaktype_van": []
