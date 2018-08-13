@@ -7,6 +7,8 @@ if [[ -z "$WORKSPACE" ]]; then
     export WORKSPACE=$(pwd)
 fi
 
+docker-compose pull
+
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
