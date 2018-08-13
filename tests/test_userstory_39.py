@@ -10,11 +10,10 @@ from base64 import b64encode
 
 import requests
 
-from .clients import zrc_client, ztc_client, drc_client, orc_client
 from .constants import CATALOGUS_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
 
 
-def test_melding_overlast(text_file, png_file):
+def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_client, orc_client):
     # retrieve zaaktype/statustype from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
     status_type = ztc_client.retrieve(
