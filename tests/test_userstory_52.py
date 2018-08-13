@@ -1,4 +1,3 @@
-from .clients import zrc_client, ztc_client
 from .constants import CATALOGUS_UUID, ZAAKTYPE_UUID
 
 
@@ -9,7 +8,7 @@ def find(collection, compare_func):
     raise Exception("Item not found")
 
 
-def test_melding_eigenschappen():
+def test_melding_eigenschappen(zrc_client, ztc_client):
 
     # retrieve zaaktype eigenschappen from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)

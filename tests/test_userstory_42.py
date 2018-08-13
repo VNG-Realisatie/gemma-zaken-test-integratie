@@ -4,13 +4,12 @@ Assert that we can query on geometry
 import json
 import os
 
-from .clients import zrc_client, ztc_client
 from .constants import BASE_DIR, CATALOGUS_UUID, ZAAKTYPE_UUID
 
 ANDER_ZAAKTYPE_UUID = '42e85d1e-f3fd-40be-b39a-72b67f73ea8d'
 
 
-def test_opvragen_zaken_binnen_geometrie():
+def test_opvragen_zaken_binnen_geometrie(zrc_client, ztc_client):
     geo_file = os.path.join(BASE_DIR, 'tests', 'geo', 'amsterdam_centrum.json')
     with open(geo_file, 'r') as infile:
         amsterdam_centrum = json.load(infile)
