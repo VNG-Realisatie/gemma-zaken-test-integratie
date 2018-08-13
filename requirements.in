@@ -1,6 +1,7 @@
 pip-tools
 requests
 Pillow
+gemma-zds-client
 
 isort
 pytest

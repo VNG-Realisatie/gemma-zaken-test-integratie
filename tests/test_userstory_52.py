@@ -1,8 +1,5 @@
-from zit.client import Client
-
-CATALOGUS_UUID = '03a8a943-98aa-4e5a-8643-ad2d81db4d6b'
-ZAAKTYPE_UUID = 'd1cb2212-0d9c-48fe-8a04-01317a9630f4'
-STATUSTYPE_UUID = 'b7402827-8e7f-4081-ac24-7911b8929f97'
+from .clients import zrc_client, ztc_client
+from .constants import CATALOGUS_UUID, ZAAKTYPE_UUID
 
 
 def find(collection, compare_func):
@@ -13,8 +10,6 @@ def find(collection, compare_func):
 
 
 def test_melding_eigenschappen():
-    ztc_client = Client('ztc')
-    zrc_client = Client('zrc')
 
     # retrieve zaaktype eigenschappen from ZTC
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
@@ -65,5 +60,8 @@ def test_melding_eigenschappen():
         lambda item: item['url'] == zaakeigenschappen[0]['eigenschap']
     )
 
-    key_value_repr = f"{eigenschap['naam']}: {zaakeigenschappen[0]['waarde']}"
+    key_value_repr = '{key}: {value}'.format(
+        key=eigenschap['naam'],
+        value=zaakeigenschappen[0]['waarde'],
+    )
     assert key_value_repr == 'melding_type: water'
