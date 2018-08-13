@@ -26,6 +26,7 @@ def test_melding_eigenschappen():
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
         'bronorganisatie': '517439943',
+        'startdatum': '2018-06-18',
         'registratiedatum': '2018-06-18',
         'toelichting': 'Hout van een boot is afgebroken en blokkeert de '
                        'linkerdoorgang van een brug.',

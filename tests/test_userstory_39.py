@@ -35,6 +35,7 @@ def test_melding_overlast(text_file, png_file):
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
         'bronorganisatie': '517439943',
+        'startdatum': '2018-06-18',
         'registratiedatum': '2018-06-18',
         'toelichting': 'Hout van een boot is afgebroken en blokkeert de '
                        'linkerdoorgang van een brug.',
@@ -74,6 +75,7 @@ def test_melding_overlast(text_file, png_file):
     zaak_object = zrc_client.create('zaakobject', {
         'zaak': zaak['url'],
         'object': verblijfsobject['url'],
+        'type': 'VerblijfsObject',
     })
     assert 'url' in zaak_object
 
@@ -84,12 +86,12 @@ def test_melding_overlast(text_file, png_file):
 
     text_attachment = drc_client.create('enkelvoudiginformatieobject', {
         'identificatie': uuid.uuid4().hex,
-        'bronorganisatie': '1',
+        'bronorganisatie': '517439943',
         'creatiedatum': zaak['registratiedatum'],
         'titel': 'text_extra.txt',
         'auteur': 'anoniem',
         'formaat': 'text/plain',
-        'taal': 'nl',
+        'taal': 'dut',
         'inhoud': base64_string
     })
 
@@ -110,12 +112,12 @@ def test_melding_overlast(text_file, png_file):
 
     image_attachment = drc_client.create('enkelvoudiginformatieobject', {
         'identificatie': uuid.uuid4().hex,
-        'bronorganisatie': '1',
+        'bronorganisatie': '517439943',
         'creatiedatum': zaak['registratiedatum'],
         'titel': 'afbeelding.png',
         'auteur': 'anoniem',
         'formaat': 'image/png',
-        'taal': 'nl',
+        'taal': 'dut',
         'inhoud': base64_string
     })
 
