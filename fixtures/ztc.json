@@ -79,6 +79,29 @@
     }
 },
 {
+    "model": "datamodel.roltype",
+    "pk": 2,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "aa1c92c5-5c6c-4e82-96f4-a732a8ce4658",
+        "omschrijving": "Waternet",
+        "omschrijving_generiek": "Behandelaar",
+        "soort_betrokkene": "[\"waternet\"]",
+        "zaaktype": 1
+    }
+},
+{
+    "model": "datamodel.mogelijkebetrokkene",
+    "pk": 1,
+    "fields": {
+        "uuid": "7499b4cf-fac3-4a32-9411-806fa93d51d8",
+        "roltype": 2,
+        "betrokkene": "https://gemeente.amsterdam.nl/api/organisaties/waternet",
+        "betrokkene_type": "Organisatorische eenheid"
+    }
+},
+{
     "model": "datamodel.statustype",
     "pk": 1,
     "fields": {
