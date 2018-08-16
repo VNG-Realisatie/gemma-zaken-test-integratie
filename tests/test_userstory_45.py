@@ -36,7 +36,6 @@ def test_zet_behandelaar_op_basis_van_zaaktype(zrc_client, ztc_client):
         'betrokkene': behandelaar['betrokkene'],
         'betrokkeneType': behandelaar['betrokkeneType'],
         'rolomschrijving': 'Behandelaar',
-        'rolomschrijvingGeneriek': 'Behandelaar',  # TODO: delete
         'roltoelichting': 'Automatisch toegewezen op basis van zaaktype',
     })
 
