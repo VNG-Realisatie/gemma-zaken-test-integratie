@@ -4,6 +4,7 @@ services:
   ztc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/reports:/app/reports
 
   tests:
     build:

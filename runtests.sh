@@ -58,4 +58,7 @@ EOL
 echo "Using config:"
 cat config.yml
 
-pytest
+# run the test suite
+
+pytest \
+    --junitxml=reports/junit.xml
