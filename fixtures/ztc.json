@@ -66,6 +66,23 @@
     }
 },
 {
+    "model": "datamodel.informatieobjecttype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "09895889-36d9-43c5-9a52-4b30ca2532b6",
+        "informatieobjecttype_omschrijving": "Generieke bijlage",
+        "informatieobjecttype_omschrijving_generiek": null,
+        "informatieobjectcategorie": "bijlagen",
+        "informatieobjecttypetrefwoord": "[]",
+        "vertrouwelijkheidaanduiding": null,
+        "model": "[]",
+        "toelichting": null,
+        "maakt_deel_uit_van": 1
+    }
+},
+{
     "model": "datamodel.roltype",
     "pk": 1,
     "fields": {

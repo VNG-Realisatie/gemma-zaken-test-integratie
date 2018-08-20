@@ -10,7 +10,9 @@ from base64 import b64encode
 
 import requests
 
-from .constants import CATALOGUS_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
+from .constants import (
+    CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
+)
 
 
 def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_client, orc_client):
@@ -70,6 +72,12 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
     })
     assert 'url' in zaak_object
 
+    informatieobjecttype = ztc_client.retrieve(
+        'informatieobjecttype',
+        catalogus_uuid=CATALOGUS_UUID,
+        uuid=INFORMATIEOBJECTTYPE_UUID
+    )
+
     # Upload the files with POST /enkelvoudiginformatieobject (DRC)
     byte_content = text_file.read()  # text_file comes from pytest fixture
     base64_bytes = b64encode(byte_content)
@@ -77,6 +85,7 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
 
     text_attachment = drc_client.create('enkelvoudiginformatieobject', {
         'identificatie': uuid.uuid4().hex,
+        'informatieobjecttype': informatieobjecttype['url'],
         'bronorganisatie': '517439943',
         'creatiedatum': zaak['registratiedatum'],
         'titel': 'text_extra.txt',
@@ -103,6 +112,7 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
 
     image_attachment = drc_client.create('enkelvoudiginformatieobject', {
         'identificatie': uuid.uuid4().hex,
+        'informatieobjecttype': informatieobjecttype['url'],
         'bronorganisatie': '517439943',
         'creatiedatum': zaak['registratiedatum'],
         'titel': 'afbeelding.png',
