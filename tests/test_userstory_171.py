@@ -5,7 +5,7 @@ Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/171
 """
 import base64
 
-from .constants import CATALOGUS_UUID, ZAAKTYPE_UUID
+from .constants import CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
 
 
 def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
@@ -16,11 +16,18 @@ def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
         'startdatum': '2018-06-18',
     })
 
+    informatieobjecttype = ztc_client.retrieve(
+        'informatieobjecttype',
+        catalogus_uuid=CATALOGUS_UUID,
+        uuid=INFORMATIEOBJECTTYPE_UUID
+    )
+
     # upload document in DRC
     byte_content = png_file.getvalue()
     base64_bytes = base64.b64encode(byte_content)
 
     document = drc_client.create('enkelvoudiginformatieobject', {
+        'informatieobjecttype': informatieobjecttype['url'],
         'bronorganisatie': '517439943',
         'creatiedatum': zaak['registratiedatum'],
         'titel': 'afbeelding.png',
