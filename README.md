@@ -1,5 +1,7 @@
 # GEMMA-ZAKEN integratietests
 
+[![Build Status](https://jenkins.nlx.io/buildStatus/icon?job=gemma-zaken-test-integratie-master)](https://jenkins.nlx.io/view/Gemma/job/gemma-zaken-test-integratie-master/)
+
 Dit project bevat integratietests voor de verschillende referentiecomponenten
 betrokken in zaakgericht werken. In
 [gemma-zaken](https://github.com/vng-Realisatie/gemma-zaken) wordt gewerkt aan
