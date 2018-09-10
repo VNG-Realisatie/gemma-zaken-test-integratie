@@ -13,6 +13,7 @@ def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
         'bronorganisatie': '517439943',
+        'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
         'startdatum': '2018-06-18',
     })
 

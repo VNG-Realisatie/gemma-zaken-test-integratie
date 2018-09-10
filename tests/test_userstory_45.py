@@ -18,6 +18,7 @@ def test_zet_behandelaar_op_basis_van_zaaktype(zrc_client, ztc_client):
         'bronorganisatie': '517439943',
         'startdatum': '2018-06-18',
         'registratiedatum': '2018-06-18',
+        'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
     })
     assert 'url' in zaak
 
