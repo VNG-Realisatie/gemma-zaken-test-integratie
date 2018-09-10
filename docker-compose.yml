@@ -22,6 +22,11 @@ services:
     volumes:
       - ztc_postgres_data:/var/lib/postgresql/data
 
+  brc_db:
+    image: postgres
+    volumes:
+      - brc_postgres_data:/var/lib/postgresql/data
+
   orc_db:
     image: postgres
     volumes:
@@ -29,7 +34,7 @@ services:
 
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.3.1
+    image: vngr/gemma-zrc:0.4.0
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
@@ -63,6 +68,17 @@ services:
     depends_on:
       - ztc_db
 
+  brc.vng:
+    image: vngr/gemma-brc:0.1.0
+    environment:
+      - DJANGO_SETTINGS_MODULE=brc.conf.docker
+      - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
+      - DATABASE_HOST=brc_db
+    ports:
+      - 8003:8000
+    depends_on:
+      - brc_db
+
   orc.vng:
     image: vngr/gemma-orc:latest
     environment:
@@ -70,7 +86,7 @@ services:
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
       - DATABASE_HOST=orc_db
     ports:
-      - 8003:8000
+      - 8010:8000
     depends_on:
       - orc_db
 
@@ -79,4 +95,5 @@ volumes:
   drc_postgres_data:
   drc_media:
   ztc_postgres_data:
+  brc_postgres_data:
   orc_postgres_data:

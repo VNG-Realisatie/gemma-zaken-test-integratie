@@ -21,6 +21,11 @@ until curl -sSf http://ztc.vng:8000/ > /dev/null; do
     sleep 1
 done
 
+until curl -sSf http://brc.vng:8000/ > /dev/null; do
+    >&2 echo "Waiting until BRC is up..."
+    sleep 1
+done
+
 until curl -sSf http://orc.vng:8000/ > /dev/null; do
     >&2 echo "Waiting until ORC is up..."
     sleep 1
@@ -46,6 +51,11 @@ drc:
 ztc:
   scheme: http
   host: ztc.vng
+  port: 8000
+
+brc:
+  schema: http
+  host: brc.vng
   port: 8000
 
 orc:

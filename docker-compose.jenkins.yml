@@ -15,4 +15,5 @@ services:
       - zrc.vng
       - drc.vng
       - ztc.vng
+      - brc.vng
       - orc.vng
