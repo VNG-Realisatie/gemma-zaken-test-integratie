@@ -54,7 +54,7 @@ ztc:
   port: 8000
 
 brc:
-  schema: http
+  scheme: http
   host: brc.vng
   port: 8000
 

@@ -14,6 +14,7 @@ Client.load_config(BASE_DIR, CONFIG_FILE)
 _zrc_client = Client('zrc')
 _drc_client = Client('drc')
 _ztc_client = Client('ztc')
+_brc_client = Client('brc')
 _orc_client = Client('orc')
 
 
@@ -70,5 +71,40 @@ def ztc_client():
 
 
 @pytest.fixture
+def brc_client():
+    return _brc_client
+
+
+@pytest.fixture
 def orc_client():
     return _orc_client
+
+
+class State(dict):
+    def __setattr__(self, attr, value):
+        self[attr] = value
+
+    def __getattr__(self, attr):
+        try:
+            return self[attr]
+        except KeyError as exc:
+            raise AttributeError from exc
+
+
+@pytest.fixture(scope='session')
+def state() -> State:
+    return State()
+
+
+def pytest_runtest_makereport(item, call):
+    if "incremental" in item.keywords:
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._previousfailed = item
+
+
+def pytest_runtest_setup(item):
+    if "incremental" in item.keywords:
+        previousfailed = getattr(item.parent, "_previousfailed", None)
+        if previousfailed is not None:
+            pytest.xfail("previous test failed (%s)" % previousfailed.name)

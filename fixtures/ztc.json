@@ -1,5 +1,28 @@
 [
 {
+    "model": "datamodel.besluittype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "5f21f72e-e943-4885-bf5f-a02b5187b25a",
+        "omschrijving": "Besluittype 1",
+        "omschrijving_generiek": "TODO",
+        "besluitcategorie": "Categorie 1",
+        "reactietermijn": null,
+        "publicatie_indicatie": false,
+        "publicatietekst": "",
+        "publicatietermijn": null,
+        "toelichting": "",
+        "catalogus": 1,
+        "informatieobjecttypes": [
+            1
+        ],
+        "resultaattypes": [],
+        "zaaktypes": []
+    }
+},
+{
     "model": "datamodel.catalogus",
     "pk": 1,
     "fields": {

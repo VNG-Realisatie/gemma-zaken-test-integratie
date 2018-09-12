@@ -16,7 +16,7 @@ ztc:
   port: 8002
 
 brc:
-  schema: http
+  scheme: http
   host: localhost
   port: 8003
 
