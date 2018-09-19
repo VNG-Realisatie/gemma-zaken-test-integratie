@@ -1,11 +1,6 @@
 version: '3.4'
 
 services:
-  ztc.vng:
-    volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
-      - ${WORKSPACE}/reports:/app/reports
-
   tests:
     build:
       context: ./

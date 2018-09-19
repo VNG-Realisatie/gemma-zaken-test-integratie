@@ -16,6 +16,7 @@ def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
         'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
         'startdatum': '2018-06-18',
     })
+    zaak_uuid = zaak['url'].rsplit('/', 1)[-1]
 
     informatieobjecttype = ztc_client.retrieve(
         'informatieobjecttype',
@@ -41,11 +42,17 @@ def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
     assert 'identificatie' in document
 
     # relateer document aan zaak
-    zio = drc_client.create('objectinformatieobject', {
+    oio = drc_client.create('objectinformatieobject', {
         'informatieobject': document['url'],
         'object': zaak['url'],
         'objectType': 'zaak',
         'registratiedatum': '2018-09-19T16:25:36+0200'
     })
 
-    assert 'url' in zio
+    assert 'url' in oio
+
+    # bewijs dat de relatie ook bestaat in het ZRC
+    zios = zrc_client.list('zaakinformatieobject', zaak_uuid=zaak_uuid)
+
+    assert len(zios) == 1
+    assert zios[0]['informatieobject'] == document['url']

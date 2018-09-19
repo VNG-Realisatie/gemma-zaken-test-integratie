@@ -9,11 +9,26 @@ fi
 
 docker-compose pull
 
+# build tests image
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     build tests
 
+# prepare DRC
+docker-compose \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    run drc.vng \
+        python src/manage.py migrate
+
+docker-compose \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    run drc.vng \
+        python src/manage.py loaddata fixtures/drc.json
+
+# prepare ZTC
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
@@ -26,11 +41,13 @@ docker-compose \
     run ztc.vng \
         python src/manage.py loaddata fixtures/ztc.json
 
+# run tests
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     run tests
 
+# shut everything down
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
