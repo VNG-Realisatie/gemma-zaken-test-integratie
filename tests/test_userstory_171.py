@@ -41,9 +41,11 @@ def test_upload_document(png_file, zrc_client, ztc_client, drc_client):
     assert 'identificatie' in document
 
     # relateer document aan zaak
-    zio = drc_client.create('zaakinformatieobject', {
-        'zaak': zaak['url'],
+    zio = drc_client.create('objectinformatieobject', {
         'informatieobject': document['url'],
+        'object': zaak['url'],
+        'objectType': 'zaak',
+        'registratiedatum': '2018-09-19T16:25:36+0200'
     })
 
     assert 'url' in zio

@@ -123,23 +123,27 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
         'inhoud': base64_string
     })
 
-    # Link the files to a 'Zaak' with POST /zaakinformatieobjecten (ZRC)
-    zaakinformatieobject_1 = drc_client.create('zaakinformatieobject', {
-        'zaak': zaak['url'],
+    # Link the files to a 'Zaak' with POST /objectinformatieobjecten (ZRC)
+    objectinformatieobject_1 = drc_client.create('objectinformatieobject', {
         'informatieobject': text_attachment['url'],
+        'object': zaak['url'],
+        'objectType': 'zaak',
+        'registratiedatum': '2018-09-19T16:25:36+0200',
     })
-    assert 'url' in zaakinformatieobject_1
+    assert 'url' in objectinformatieobject_1
 
-    zaakinformatieobject_2 = drc_client.create('zaakinformatieobject', {
-        'zaak': zaak['url'],
+    objectinformatieobject_2 = drc_client.create('objectinformatieobject', {
         'informatieobject': image_attachment['url'],
+        'object': zaak['url'],
+        'objectType': 'zaak',
+        'registratiedatum': '2018-09-19T16:25:36+0200',
     })
-    informatie_object_uuid = zaakinformatieobject_2['url'].rsplit('/')[-1]
+    informatie_object_uuid = objectinformatieobject_2['url'].rsplit('/')[-1]
 
-    # Test if it's possible to retrieve ZaakInformatieObject
-    some_informatie_object = drc_client.retrieve('zaakinformatieobject', uuid=informatie_object_uuid)
+    # Test if it's possible to retrieve ObjectInformatieObject
+    some_informatie_object = drc_client.retrieve('objectinformatieobject', uuid=informatie_object_uuid)
 
-    # Retrieve the EnkelvoudigInformatieObject from ZaakInformatieObject
+    # Retrieve the EnkelvoudigInformatieObject from ObjectInformatieObject
     assert 'informatieobject' in some_informatie_object
 
     img_object_uuid = some_informatie_object['informatieobject'].rsplit('/')[-1]
