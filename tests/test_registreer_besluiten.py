@@ -3,11 +3,16 @@ Test dat het mogelijk is om BESLUITen toe te kennen aan ZAAKen, die vastgelegd
 zijn in (een) INFORMATIEOBJECT(en).
 """
 import pytest
+import requests
 
 from .constants import (
     CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID, BESLUITTYPE_UUID
 )
 from .utils import encode_file
+
+
+def _get_uuid(resource: dict) -> str:
+    return resource['url'].rsplit('/')[-1]
 
 
 @pytest.mark.incremental
@@ -42,7 +47,7 @@ class TestBesluiten:
         assert 'url' in besluit
         state.besluit = besluit
 
-    def test_leg_besluit_vast_in_informatieobject(self, state, text_file, drc_client, ztc_client, brc_client):
+    def test_leg_besluit_vast_in_informatieobject(self, state, text_file, drc_client, ztc_client):
         informatieobjecttype = ztc_client.retrieve(
             'informatieobjecttype',
             catalogus_uuid=CATALOGUS_UUID,
@@ -59,28 +64,33 @@ class TestBesluiten:
             'inhoud': encode_file(text_file),
         })
         assert 'url' in document
+        state.document = document
 
-        bio = brc_client.create('besluitinformatieobject', {
-            'besluit': state.besluit['url'],
+        oio = drc_client.create('objectinformatieobject', {
             'informatieobject': document['url'],
+            'object': state.besluit['url'],
+            'objectType': 'besluit',
+            'registratiedatum': '2018-09-12T16:25:36+0200',
         })
-        assert 'url' in bio
 
-    def test_opvragen_gegevens(self, state, brc_client, drc_client):
+        assert 'url' in oio
+
+    def test_opvragen_gegevens(self, state, zrc_client, brc_client, drc_client):
         # alle besluiten bij een zaak...
         besluiten = brc_client.list('besluit', query_params={'zaak': state.zaak['url']})
         assert len(besluiten) == 1
 
         # alle informatieobjecten bij een zaak...
-        informatieobjecten = drc_client.list(
-            'zaakinformatieobject',
-            query_params={'zaak': state.zaak['url']}
-        )
-        assert len(informatieobjecten) == 0
+        zaak_uuid = _get_uuid(state.zaak)
+        zaakinformatieobjecten = zrc_client.list('zaakinformatieobject', zaak_uuid=zaak_uuid)
+        assert len(zaakinformatieobjecten) == 0
 
-        # besluitinformatieobjecten
-        bios = brc_client.list(
-            'besluitinformatieobject',
-            query_params={'besluit': state.besluit['url']}
-        )
-        assert len(bios) == 1
+        # besluitinformatieobjecten -> DRC MOET deze syncen naar BRC
+        besluit_uuid = _get_uuid(state.besluit)
+        besluitinformatieobjecten = brc_client.list('besluitinformatieobject', besluit_uuid=besluit_uuid)
+        assert len(besluitinformatieobjecten) == 1
+
+        informatieobject_url = besluitinformatieobjecten[0]['informatieobject']
+        assert informatieobject_url == state.document['url']
+        response = requests.get(informatieobject_url)
+        assert response.status_code == 200
