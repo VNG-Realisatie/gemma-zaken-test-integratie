@@ -8,11 +8,7 @@ import requests
 from .constants import (
     CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID, BESLUITTYPE_UUID
 )
-from .utils import encode_file
-
-
-def _get_uuid(resource: dict) -> str:
-    return resource['url'].rsplit('/')[-1]
+from .utils import encode_file, get_uuid
 
 
 @pytest.mark.incremental
@@ -54,6 +50,7 @@ class TestBesluiten:
             uuid=INFORMATIEOBJECTTYPE_UUID
         )
         assert 'url' in informatieobjecttype
+        state.informatieobjecttype = informatieobjecttype
 
         document = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
@@ -75,18 +72,67 @@ class TestBesluiten:
 
         assert 'url' in oio
 
+    def test_uniciteit_besluitinformatieobject(self, state, drc_client):
+        with pytest.raises(requests.HTTPError) as exc:
+            drc_client.create('objectinformatieobject', {
+                'informatieobject': state.document['url'],
+                'object': state.besluit['url'],
+                'objectType': 'besluit',
+                'registratiedatum': '2018-09-12T16:25:59+0200',
+            })
+
+        assert exc.value.response.status_code == 400
+
+    def test_relateer_informatieobject_dubbel_brc(self, state, brc_client):
+        """
+        Test that the ZaakInformatieObject may not be duplicated in ZRC.
+
+        This is to protect against unintended ZRC-side relation usage.
+        """
+        besluit_uuid = get_uuid(state.besluit)
+
+        with pytest.raises(requests.HTTPError) as exc_context:
+            brc_client.create('besluitinformatieobject', {
+                'informatieobject': state.document['url'],
+            }, besluit_uuid=besluit_uuid)
+
+        assert exc_context.value.response.status_code == 400
+
+    def test_relatie_eerst_in_drc_dan_brc(self, state, brc_client, drc_client, text_file):
+        """
+        Test dat de relatie zaak-informatieobject moet bestaan in het DRC
+        voordat je de symmetrische relatie in het bRC mag leggen.
+        """
+        document2 = drc_client.create('enkelvoudiginformatieobject', {
+            'creatiedatum': '2018-09-12',
+            'titel': 'besluit.txt',
+            'auteur': 'Jos den Homeros',
+            'taal': 'dut',
+            'informatieobjecttype': state.informatieobjecttype['url'],
+            'inhoud': encode_file(text_file),
+        })
+
+        besluit_uuid = get_uuid(state.besluit)
+
+        with pytest.raises(requests.HTTPError) as exc_context:
+            brc_client.create('besluitinformatieobject', {
+                'informatieobject': document2['url'],
+            }, besluit_uuid=besluit_uuid)
+
+        assert exc_context.value.response.status_code == 400
+
     def test_opvragen_gegevens(self, state, zrc_client, brc_client, drc_client):
         # alle besluiten bij een zaak...
         besluiten = brc_client.list('besluit', query_params={'zaak': state.zaak['url']})
         assert len(besluiten) == 1
 
         # alle informatieobjecten bij een zaak...
-        zaak_uuid = _get_uuid(state.zaak)
+        zaak_uuid = get_uuid(state.zaak)
         zaakinformatieobjecten = zrc_client.list('zaakinformatieobject', zaak_uuid=zaak_uuid)
         assert len(zaakinformatieobjecten) == 0
 
         # besluitinformatieobjecten -> DRC MOET deze syncen naar BRC
-        besluit_uuid = _get_uuid(state.besluit)
+        besluit_uuid = get_uuid(state.besluit)
         besluitinformatieobjecten = brc_client.list('besluitinformatieobject', besluit_uuid=besluit_uuid)
         assert len(besluitinformatieobjecten) == 1
 
