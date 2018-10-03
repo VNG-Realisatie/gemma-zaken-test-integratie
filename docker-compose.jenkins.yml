@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  drc.vng:
+    volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
+  ztc.vng:
+    volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
+
   tests:
     build:
       context: ./
