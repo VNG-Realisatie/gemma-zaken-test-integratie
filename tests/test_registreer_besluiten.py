@@ -5,6 +5,8 @@ zijn in (een) INFORMATIEOBJECT(en).
 import pytest
 import requests
 
+from zds_client import ClientError
+
 from .constants import (
     CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID, BESLUITTYPE_UUID
 )
@@ -12,6 +14,7 @@ from .utils import encode_file, get_uuid
 
 
 @pytest.mark.incremental
+@pytest.mark.xfail(reason="BRC not final yet")
 class TestBesluiten:
 
     def test_creeer_zaak(self, state, zrc_client, ztc_client):
@@ -73,7 +76,7 @@ class TestBesluiten:
         assert 'url' in oio
 
     def test_uniciteit_besluitinformatieobject(self, state, drc_client):
-        with pytest.raises(requests.HTTPError) as exc:
+        with pytest.raises(ClientError) as exc:
             drc_client.create('objectinformatieobject', {
                 'informatieobject': state.document['url'],
                 'object': state.besluit['url'],
@@ -81,7 +84,7 @@ class TestBesluiten:
                 'registratiedatum': '2018-09-12T16:25:59+0200',
             })
 
-        assert exc.value.response.status_code == 400
+        assert exc.value.args[0]['status'] == 400
 
     def test_relateer_informatieobject_dubbel_brc(self, state, brc_client):
         """
@@ -91,12 +94,12 @@ class TestBesluiten:
         """
         besluit_uuid = get_uuid(state.besluit)
 
-        with pytest.raises(requests.HTTPError) as exc_context:
+        with pytest.raises(ClientError) as exc_context:
             brc_client.create('besluitinformatieobject', {
                 'informatieobject': state.document['url'],
             }, besluit_uuid=besluit_uuid)
 
-        assert exc_context.value.response.status_code == 400
+        assert exc_context.value.args[0]['status'] == 400
 
     def test_relatie_eerst_in_drc_dan_brc(self, state, brc_client, drc_client, text_file):
         """
@@ -114,12 +117,12 @@ class TestBesluiten:
 
         besluit_uuid = get_uuid(state.besluit)
 
-        with pytest.raises(requests.HTTPError) as exc_context:
+        with pytest.raises(ClientError) as exc_context:
             brc_client.create('besluitinformatieobject', {
                 'informatieobject': document2['url'],
             }, besluit_uuid=besluit_uuid)
 
-        assert exc_context.value.response.status_code == 400
+        assert exc_context.value.args[0]['status'] == 400
 
     def test_opvragen_gegevens(self, state, zrc_client, brc_client, drc_client):
         # alle besluiten bij een zaak...

@@ -3,7 +3,8 @@ Test dat het mogelijk is om een informatieobject slechts eenmalig te relateren
 aan een zaak.
 """
 import pytest
-import requests
+
+from zds_client import ClientError
 
 from .constants import CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
 from .utils import encode_file, get_uuid
@@ -57,7 +58,7 @@ class TestZaakInformatieObjecten:
         assert 'url' in oio
 
         # tweede keer zelfde document mag niet!
-        with pytest.raises(requests.HTTPError) as exc_context:
+        with pytest.raises(ClientError) as exc_context:
             drc_client.create('objectinformatieobject', {
                 'informatieobject': state.document['url'],
                 'object': state.zaak['url'],
@@ -65,7 +66,7 @@ class TestZaakInformatieObjecten:
                 'registratiedatum': '2018-09-12T16:25:59+0200',
             })
 
-        assert exc_context.value.response.status_code == 400
+        assert exc_context.value.args[0]['status'] == 400
 
         # zaakinformatieobject moet bestaan in ZRC
         zaak_uuid = get_uuid(state.zaak)
@@ -80,12 +81,12 @@ class TestZaakInformatieObjecten:
         """
         zaak_uuid = get_uuid(state.zaak)
 
-        with pytest.raises(requests.HTTPError) as exc_context:
+        with pytest.raises(ClientError) as exc_context:
             zrc_client.create('zaakinformatieobject', {
                 'informatieobject': state.document['url'],
             }, zaak_uuid=zaak_uuid)
 
-        assert exc_context.value.response.status_code == 400
+        assert exc_context.value.args[0]['status'] == 400
 
     def test_relatie_eerst_in_drc_dan_zrc(self, state, zrc_client, drc_client, text_file):
         """
@@ -103,9 +104,9 @@ class TestZaakInformatieObjecten:
 
         zaak_uuid = get_uuid(state.zaak)
 
-        with pytest.raises(requests.HTTPError) as exc_context:
+        with pytest.raises(ClientError) as exc_context:
             zrc_client.create('zaakinformatieobject', {
                 'informatieobject': document2['url'],
             }, zaak_uuid=zaak_uuid)
 
-        assert exc_context.value.response.status_code == 400
+        assert exc_context.value.args[0]['status'] == 400
