@@ -41,14 +41,20 @@ docker-compose \
     run ztc.vng \
         python src/manage.py loaddata fixtures/ztc.json
 
+set +e  # even on errors, continue because we need to bring down the containers
+
 # run tests
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     run tests
 
+failure=$?
+
 # shut everything down
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
     down
+
+exit $failure
