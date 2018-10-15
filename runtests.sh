@@ -71,4 +71,5 @@ cat config.yml
 # run the test suite
 
 pytest \
-    --junitxml=reports/junit.xml
+    --junitxml=reports/junit.xml \
+    -s

@@ -5,4 +5,5 @@ gemma-zds-client==0.4.2
 
 isort
 pytest
+pytest-sugar
 pyyaml

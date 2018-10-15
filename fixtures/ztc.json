@@ -1,5 +1,29 @@
 [
 {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+        "domain": "ref.tst.vng.cloud",
+        "name": "ref.tst.vng.cloud"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 2,
+    "fields": {
+        "domain": "ztc.vng:8000",
+        "name": "ZTC"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 3,
+    "fields": {
+        "domain": "localhost:8000",
+        "name": "ZTC"
+    }
+},
+{
     "model": "datamodel.besluittype",
     "pk": 1,
     "fields": {

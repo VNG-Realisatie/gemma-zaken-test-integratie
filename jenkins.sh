@@ -15,6 +15,13 @@ docker-compose \
     -f docker-compose.jenkins.yml \
     build tests
 
+# FIXME: services need to be running first
+# docker-compose \
+#     -f ./docker-compose.yml \
+#     -f docker-compose.jenkins.yml \
+#     exec -u postgres zrc_db \
+#         update-postgis.sh
+
 # prepare DRC
 docker-compose \
     -f ./docker-compose.yml \
@@ -41,7 +48,8 @@ docker-compose \
     run ztc.vng \
         python src/manage.py loaddata fixtures/ztc.json
 
-set +e  # even on errors, continue because we need to bring down the containers
+# even on errors, continue because we need to bring down the containers
+set +e
 
 # run tests
 docker-compose \
@@ -51,10 +59,13 @@ docker-compose \
 
 failure=$?
 
+set -e
+
 # shut everything down
 docker-compose \
     -f ./docker-compose.yml \
     -f docker-compose.jenkins.yml \
-    down
+    down \
+    --volumes
 
 exit $failure
