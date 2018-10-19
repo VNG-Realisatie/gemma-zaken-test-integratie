@@ -42,9 +42,24 @@ script hiervoor is:
 
 ### Eigen implementaties testen
 
-Om de eigen implementaties te testen moet je een Python-environment opstarten.
+#### Met docker
 
-Python 3.6 is getest.
+Ook voor het testen van eigen implementaties kan `docker-compose` gebruikt
+worden.
+
+Voorwaarde: de componenten die je wil testen zijn als Docker container beschikbaar
+
+1. Bewerk `docker-compose.yml` zodat de `image` van de relevante componenten
+   naar je eigen images wijst.
+2. Voer `./jenkins.sh` uit
+
+Eventueel kan je ook een extra override toevoegen waarbij de images aangepast
+worden, en deze opnemen in de bron van `jenkins.sh`.
+
+#### Zonder docker
+
+Zonder docker oet je een Python-environment opstarten waarbinnen de tests
+uitgevoerd worden. Python 3.6 is getest en officieel supported.
 
 1. Maak een virtualenv aan en installeer de dependencies:
 
