@@ -15,7 +15,12 @@ ztc:
   host: localhost
   port: 8002
 
-orc:
+brc:
   scheme: http
   host: localhost
   port: 8003
+
+orc:
+  scheme: http
+  host: localhost
+  port: 8010

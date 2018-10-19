@@ -8,28 +8,33 @@ version: '3.4'
 services:
   # databases
   zrc_db:
-    image: mdillon/postgis
+    image: mdillon/postgis:10
     volumes:
       - zrc_postgres_data:/var/lib/postgresql/data
 
   drc_db:
-    image: postgres
+    image: postgres:10
     volumes:
       - drc_postgres_data:/var/lib/postgresql/data
 
   ztc_db:
-    image: postgres
+    image: postgres:10
     volumes:
       - ztc_postgres_data:/var/lib/postgresql/data
 
+  brc_db:
+    image: postgres:10
+    volumes:
+      - brc_postgres_data:/var/lib/postgresql/data
+
   orc_db:
-    image: postgres
+    image: postgres:10
     volumes:
       - orc_postgres_data:/var/lib/postgresql/data
 
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.2.6
+    image: vngr/gemma-zrc:dev
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
@@ -40,11 +45,14 @@ services:
       - zrc_db
 
   drc.vng:
-    image: vngr/gemma-drc:0.2.2
+    image: vngr/gemma-drc:dev
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
       - SECRET_KEY=h1kluf9r2yhcfr_i!fqb!srx=!u@!^b_gdl54=h0n15j34*+#=
       - DATABASE_HOST=drc_db
+
+      - SITE_ID=2
+      - IS_HTTPS=0
     volumes:
       - drc_media:/app/media
     ports:
@@ -53,15 +61,27 @@ services:
       - drc_db
 
   ztc.vng:
-    image: vngr/gemma-ztc:0.2.2
+    image: vngr/gemma-ztc:brc
     environment:
       - DJANGO_SETTINGS_MODULE=ztc.conf.docker
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
       - DATABASE_HOST=ztc_db
+      - SITE_ID=2
     ports:
       - 8002:8000
     depends_on:
       - ztc_db
+
+  brc.vng:
+    image: vngr/gemma-brc:0.2.0
+    environment:
+      - DJANGO_SETTINGS_MODULE=brc.conf.docker
+      - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
+      - DATABASE_HOST=brc_db
+    ports:
+      - 8003:8000
+    depends_on:
+      - brc_db
 
   orc.vng:
     image: vngr/gemma-orc:latest
@@ -70,7 +90,7 @@ services:
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
       - DATABASE_HOST=orc_db
     ports:
-      - 8003:8000
+      - 8010:8000
     depends_on:
       - orc_db
 
@@ -79,4 +99,5 @@ volumes:
   drc_postgres_data:
   drc_media:
   ztc_postgres_data:
+  brc_postgres_data:
   orc_postgres_data:

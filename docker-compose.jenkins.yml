@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  drc.vng:
+    volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
   ztc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
@@ -14,4 +17,5 @@ services:
       - zrc.vng
       - drc.vng
       - ztc.vng
+      - brc.vng
       - orc.vng

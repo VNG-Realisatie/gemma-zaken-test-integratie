@@ -1,5 +1,52 @@
 [
 {
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+        "domain": "ref.tst.vng.cloud",
+        "name": "ref.tst.vng.cloud"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 2,
+    "fields": {
+        "domain": "ztc.vng:8000",
+        "name": "ZTC"
+    }
+},
+{
+    "model": "sites.site",
+    "pk": 3,
+    "fields": {
+        "domain": "localhost:8000",
+        "name": "ZTC"
+    }
+},
+{
+    "model": "datamodel.besluittype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "5f21f72e-e943-4885-bf5f-a02b5187b25a",
+        "omschrijving": "Besluittype 1",
+        "omschrijving_generiek": "TODO",
+        "besluitcategorie": "Categorie 1",
+        "reactietermijn": null,
+        "publicatie_indicatie": false,
+        "publicatietekst": "",
+        "publicatietermijn": null,
+        "toelichting": "",
+        "catalogus": 1,
+        "informatieobjecttypes": [
+            1
+        ],
+        "resultaattypes": [],
+        "zaaktypes": []
+    }
+},
+{
     "model": "datamodel.catalogus",
     "pk": 1,
     "fields": {
@@ -66,6 +113,23 @@
     }
 },
 {
+    "model": "datamodel.informatieobjecttype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "09895889-36d9-43c5-9a52-4b30ca2532b6",
+        "informatieobjecttype_omschrijving": "Generieke bijlage",
+        "informatieobjecttype_omschrijving_generiek": null,
+        "informatieobjectcategorie": "bijlagen",
+        "informatieobjecttypetrefwoord": "[]",
+        "vertrouwelijkheidaanduiding": null,
+        "model": "[]",
+        "toelichting": null,
+        "maakt_deel_uit_van": 1
+    }
+},
+{
     "model": "datamodel.roltype",
     "pk": 1,
     "fields": {
@@ -76,6 +140,29 @@
         "omschrijving_generiek": "Initiator",
         "soort_betrokkene": "[\"app\", \"api\"]",
         "zaaktype": 1
+    }
+},
+{
+    "model": "datamodel.roltype",
+    "pk": 2,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "aa1c92c5-5c6c-4e82-96f4-a732a8ce4658",
+        "omschrijving": "Waternet",
+        "omschrijving_generiek": "Behandelaar",
+        "soort_betrokkene": "[\"waternet\"]",
+        "zaaktype": 1
+    }
+},
+{
+    "model": "datamodel.mogelijkebetrokkene",
+    "pk": 1,
+    "fields": {
+        "uuid": "7499b4cf-fac3-4a32-9411-806fa93d51d8",
+        "roltype": 2,
+        "betrokkene": "https://gemeente.amsterdam.nl/api/organisaties/waternet",
+        "betrokkene_type": "Organisatorische eenheid"
     }
 },
 {
