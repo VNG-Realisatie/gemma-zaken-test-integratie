@@ -187,6 +187,27 @@
     }
 },
 {
+    "model": "datamodel.statustype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "f9e33078-6907-40ec-8e9a-57d6a1a7df54",
+        "is_van": 1,
+        "statustype_omschrijving": "Melding afgesloten",
+        "statustype_omschrijving_generiek": "",
+        "statustypevolgnummer": 2,
+        "doorlooptijd_status": null,
+        "informeren": "J",
+        "statustekst": "Melding afgsloten",
+        "toelichting": null,
+        "checklistitem": [],
+        "roltypen": [
+            1
+        ]
+    }
+},
+{
     "model": "datamodel.productdienst",
     "pk": 1,
     "fields": {
