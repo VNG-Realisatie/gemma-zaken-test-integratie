@@ -1,12 +1,23 @@
 version: '3.4'
 
 services:
+  zrc.vng:
+    volumes:
+      - zrc_logs:/app/log
   drc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
+      - drc_logs:/app/log
   ztc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
+      - ztc_logs:/app/log
+  brc.vng:
+    volumes:
+      - brc_logs:/app/log
+  orc.vng:
+    volumes:
+      - orc_logs:/app/log
 
   tests:
     build:
@@ -19,3 +30,10 @@ services:
       - ztc.vng
       - brc.vng
       - orc.vng
+
+volumes:
+  zrc_logs:
+  drc_logs:
+  ztc_logs:
+  brc_logs:
+  orc_logs:

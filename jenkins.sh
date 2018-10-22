@@ -83,11 +83,15 @@ failure=$?
 
 set -e
 
-# shut everything down
-docker-compose \
-    -f ./docker-compose.yml \
-    -f docker-compose.jenkins.yml \
-    down \
-    --volumes
+# shut everything down if debug not enabled
+if [ -z "$DEBUG" ]; then
+    docker-compose \
+        -f ./docker-compose.yml \
+        -f docker-compose.jenkins.yml \
+        down \
+        --volumes
+else
+    echo "Not bringing services down, debug is enabled"
+fi
 
 exit $failure
