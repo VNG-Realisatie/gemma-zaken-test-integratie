@@ -14,7 +14,6 @@ from .utils import encode_file, get_uuid
 
 
 @pytest.mark.incremental
-@pytest.mark.xfail(reason="BRC not final yet")
 class TestBesluiten:
 
     def test_creeer_zaak(self, state, zrc_client, ztc_client):
@@ -70,7 +69,6 @@ class TestBesluiten:
             'informatieobject': document['url'],
             'object': state.besluit['url'],
             'objectType': 'besluit',
-            'registratiedatum': '2018-09-12T16:25:36+0200',
         })
 
         assert 'url' in oio
