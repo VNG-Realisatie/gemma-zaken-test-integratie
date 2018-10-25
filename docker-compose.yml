@@ -45,7 +45,7 @@ services:
       - zrc_db
 
   drc.vng:
-    image: vngr/gemma-drc:0.3.1
+    image: vngr/gemma-drc:0.3.2
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
       - SECRET_KEY=h1kluf9r2yhcfr_i!fqb!srx=!u@!^b_gdl54=h0n15j34*+#=
