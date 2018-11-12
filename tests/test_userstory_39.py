@@ -24,6 +24,14 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
 
     assert status_type['url'] in zaaktype['statustypen']
 
+    zrc_client.auth.set_claims(
+        scopes=[
+            'zds.scopes.zaken.aanmaken',
+            'zds.scopes.zaken.lezen',
+        ],
+        zaaktypes=[zaaktype['url']]
+    )
+
     # registreer zaak
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
