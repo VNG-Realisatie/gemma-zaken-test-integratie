@@ -56,6 +56,13 @@ done
 #     exec -u postgres zrc_db \
 #         update-postgis.sh
 
+# prepare ZRC
+docker-compose \
+    -f ./docker-compose.yml \
+    -f docker-compose.jenkins.yml \
+    run zrc.vng \
+        python src/manage.py loaddata fixtures/zrc.json
+
 # prepare DRC
 docker-compose \
     -f ./docker-compose.yml \

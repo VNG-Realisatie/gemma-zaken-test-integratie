@@ -4,11 +4,10 @@ zijn in (een) INFORMATIEOBJECT(en).
 """
 import pytest
 import requests
-
 from zds_client import ClientError
 
 from .constants import (
-    CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID, BESLUITTYPE_UUID
+    BESLUITTYPE_UUID, CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
 )
 from .utils import encode_file, get_uuid
 

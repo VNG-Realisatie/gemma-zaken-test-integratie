@@ -1,0 +1,18 @@
+[
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "maykinmedia",
+        "secret": "H572)9dyx_LXZPd`"
+    }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 2,
+    "fields": {
+        "identifier": "zit",
+        "secret": "zrc-super-secret-key"
+    }
+}
+]

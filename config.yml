@@ -4,23 +4,39 @@ zrc:
   scheme: http
   host: localhost
   port: 8000
+  auth:
+    secret: zrc-super-secret-key
+    scopes: []
 
 drc:
   scheme: http
   host: localhost
   port: 8001
+  # auth:
+  #   secret: drc-super-secret-key
+  #   scopes: []
 
 ztc:
   scheme: http
   host: localhost
   port: 8002
+  auth:
+    secret: ztc-super-secret-key
+    scopes:
+      - zds.scopes.zaaktypes.lezen
 
 brc:
   scheme: http
   host: localhost
   port: 8003
+  # auth:
+  #   secret: brc-super-secret-key
+  #   scopes: []
 
 orc:
   scheme: http
   host: localhost
   port: 8010
+  # auth:
+  #   secret: orc-super-secret-key
+  #   scopes: []

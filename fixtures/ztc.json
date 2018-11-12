@@ -301,5 +301,13 @@
         "formulier": [],
         "is_deelzaaktype_van": []
     }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "zit",
+        "secret": "ztc-super-secret-key"
+    }
 }
 ]
