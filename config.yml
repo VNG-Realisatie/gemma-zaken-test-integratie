@@ -5,6 +5,7 @@ zrc:
   host: localhost
   port: 8000
   auth:
+    client_id: zit
     secret: zrc-super-secret-key
     scopes: []
 
@@ -21,6 +22,7 @@ ztc:
   host: localhost
   port: 8002
   auth:
+    client_id: zit
     secret: ztc-super-secret-key
     scopes:
       - zds.scopes.zaaktypes.lezen
