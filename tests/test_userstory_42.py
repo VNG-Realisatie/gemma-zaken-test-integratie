@@ -17,6 +17,14 @@ def test_opvragen_zaken_binnen_geometrie(zrc_client, ztc_client):
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
     zaaktype2 = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ANDER_ZAAKTYPE_UUID)
 
+    zrc_client.auth.set_claims(
+        scopes=[
+            'zds.scopes.zaken.aanmaken',
+            'zds.scopes.zaken.lezen',
+        ],
+        zaaktypes=[zaaktype['url'], zaaktype2['url']]
+    )
+
     # create zaak-objects
     zaak1 = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],

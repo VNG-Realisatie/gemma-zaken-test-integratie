@@ -12,6 +12,11 @@ def test_zet_behandelaar_op_basis_van_zaaktype(zrc_client, ztc_client):
     # vraag zaaktype op
     zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
 
+    zrc_client.auth.set_claims(
+        scopes=['zds.scopes.zaken.aanmaken'],
+        zaaktypes=[zaaktype['url']]
+    )
+
     # maak een zaak aan
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
