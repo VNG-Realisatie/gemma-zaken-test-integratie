@@ -39,6 +39,8 @@ services:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
       - DATABASE_HOST=zrc_db
+
+      - ZTC_JWT_SECRET=zrc-to-ztc
     ports:
       - 8000:8000
     depends_on:
@@ -53,6 +55,8 @@ services:
 
       - SITE_ID=2
       - IS_HTTPS=0
+      - ZTC_JWT_SECRET=drc-to-ztc
+      - ZRC_JWT_SECRET=drc-to-zrc
     volumes:
       - drc_media:/app/media
     ports:

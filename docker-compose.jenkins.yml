@@ -5,16 +5,11 @@ services:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
       - zrc_logs:/app/log
-    environment:
-      ZTC_JWT_SECRET: zrc-to-ztc
 
   drc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
       - drc_logs:/app/log
-    environment:
-      ZTC_JWT_SECRET: drc-to-ztc
-      ZRC_JWT_SECRET: drc-to-zrc
 
   ztc.vng:
     volumes:
