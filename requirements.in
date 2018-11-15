@@ -1,7 +1,7 @@
 pip-tools
 requests
 Pillow
-gemma-zds-client==0.5.0
+gemma-zds-client==0.6.1
 
 isort
 pyjwt
