@@ -22,5 +22,41 @@
         "domain": "localhost:8001",
         "name": "DRC"
     }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 1,
+    "fields": {
+        "api_root": "http://localhost:8002/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-ztc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 2,
+    "fields": {
+        "api_root": "http://ztc.vng:8000/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-ztc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 3,
+    "fields": {
+        "api_root": "http://localhost:8000/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-zrc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 4,
+    "fields": {
+        "api_root": "http://zrc.vng:8000/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-zrc"
+    }
 }
 ]

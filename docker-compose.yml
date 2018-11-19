@@ -39,8 +39,6 @@ services:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
       - DATABASE_HOST=zrc_db
-
-      - ZTC_JWT_SECRET=zrc-to-ztc
     ports:
       - 8000:8000
     depends_on:
@@ -55,8 +53,6 @@ services:
 
       - SITE_ID=2
       - IS_HTTPS=0
-      - ZTC_JWT_SECRET=drc-to-ztc
-      - ZRC_JWT_SECRET=drc-to-zrc
     volumes:
       - drc_media:/app/media
     ports:
@@ -77,7 +73,7 @@ services:
       - ztc_db
 
   brc.vng:
-    image: vngr/gemma-brc:0.2.0
+    image: vngr/gemma-brc:0.3.0
     environment:
       - DJANGO_SETTINGS_MODULE=brc.conf.docker
       - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
