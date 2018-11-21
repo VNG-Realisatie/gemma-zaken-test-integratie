@@ -3,7 +3,6 @@ Test dat het mogelijk is om een informatieobject slechts eenmalig te relateren
 aan een zaak.
 """
 import pytest
-
 from zds_client import ClientError
 
 from .constants import CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
@@ -17,6 +16,11 @@ class TestZaakInformatieObjecten:
         # aanmaken zaak
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
+
+        zrc_client.auth.set_claims(
+            scopes=['zds.scopes.zaken.aanmaken'],
+            zaaktypes=[zaaktype['url']]
+        )
 
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],

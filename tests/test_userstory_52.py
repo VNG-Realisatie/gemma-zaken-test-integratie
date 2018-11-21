@@ -16,6 +16,11 @@ def test_melding_eigenschappen(zrc_client, ztc_client):
     eigenschap = find(eigenschappen, lambda item: item['naam'] == 'melding_type')
     assert eigenschap['specificatie']['waardenverzameling'][0] == 'water'
 
+    zrc_client.auth.set_claims(
+        scopes=['zds.scopes.zaken.aanmaken'],
+        zaaktypes=[zaaktype['url']]
+    )
+
     # registreer zaak
     zaak = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],

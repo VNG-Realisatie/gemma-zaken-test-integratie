@@ -15,6 +15,10 @@ zrc:
   scheme: http
   host: zrc.vng
   port: 8000
+  auth:
+    client_id: zit
+    secret: zrc-super-secret-key
+    scopes: []
 
 drc:
   scheme: http
@@ -25,6 +29,11 @@ ztc:
   scheme: http
   host: ztc.vng
   port: 8000
+  auth:
+    client_id: zit
+    secret: ztc-super-secret-key
+    scopes:
+      - zds.scopes.zaaktypes.lezen
 
 brc:
   scheme: http

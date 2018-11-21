@@ -57,26 +57,36 @@ def png_file(request):
 
 @pytest.fixture
 def zrc_client():
+    # reset auth between tests
+    _zrc_client._init_auth()
     return _zrc_client
 
 
 @pytest.fixture
 def drc_client():
+    # reset auth between tests
+    _drc_client._init_auth()
     return _drc_client
 
 
 @pytest.fixture
 def ztc_client():
+    # reset auth between tests
+    _ztc_client._init_auth()
     return _ztc_client
 
 
 @pytest.fixture
 def brc_client():
+    # reset auth between tests
+    _brc_client._init_auth()
     return _brc_client
 
 
 @pytest.fixture
 def orc_client():
+    # reset auth between tests
+    _orc_client._init_auth()
     return _orc_client
 
 

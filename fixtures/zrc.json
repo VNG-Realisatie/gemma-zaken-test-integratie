@@ -1,0 +1,44 @@
+[
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "maykinmedia",
+        "secret": "H572)9dyx_LXZPd`"
+    }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 2,
+    "fields": {
+        "identifier": "zit",
+        "secret": "zrc-super-secret-key"
+    }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 3,
+    "fields": {
+        "identifier": "drc",
+        "secret": "drc-to-zrc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 1,
+    "fields": {
+        "api_root": "http://localhost:8002/api/v1/",
+        "client_id": "zrc",
+        "secret": "zrc-to-ztc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 2,
+    "fields": {
+        "api_root": "http://ztc.vng:8000/api/v1/",
+        "client_id": "zrc",
+        "secret": "zrc-to-ztc"
+    }
+}
+]
