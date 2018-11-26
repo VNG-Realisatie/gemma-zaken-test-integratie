@@ -28,7 +28,10 @@ class TestZaakAfsluiten:
         state.zaak = zaak
 
     def test_zet_initiele_status(self, state, zrc_client, ztc_client):
-        statustype = ztc_client.retrieve('statustype', catalogus_uuid=CATALOGUS_UUID, zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID)
+        statustype = ztc_client.retrieve(
+            'statustype', catalogus_uuid=CATALOGUS_UUID,
+            zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID
+        )
 
         assert statustype['volgnummer'] == 1
         assert statustype['isEindstatus'] is False
@@ -49,7 +52,10 @@ class TestZaakAfsluiten:
         state.zaak = zaak
 
     def test_zet_eind_status(self, state, zrc_client, ztc_client):
-        statustype = ztc_client.retrieve('statustype', catalogus_uuid=CATALOGUS_UUID, zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_2_UUID)
+        statustype = ztc_client.retrieve(
+            'statustype', catalogus_uuid=CATALOGUS_UUID,
+            zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_2_UUID
+        )
 
         assert statustype['volgnummer'] == 2
         assert statustype['isEindstatus'] is True
