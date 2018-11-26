@@ -18,6 +18,7 @@ services:
 
   brc.vng:
     volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
       - brc_logs:/app/log
 
   orc.vng:

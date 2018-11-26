@@ -346,5 +346,13 @@
         "identifier": "drc",
         "secret": "drc-to-ztc"
     }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 4,
+    "fields": {
+        "identifier": "brc",
+        "secret": "brc-to-ztc"
+    }
 }
 ]

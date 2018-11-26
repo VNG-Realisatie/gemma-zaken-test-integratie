@@ -12,7 +12,7 @@
     "pk": 2,
     "fields": {
         "identifier": "zit",
-        "secret": "zrc-super-secret-key"
+        "secret": "brc-super-secret-key"
     }
 },
 {
@@ -20,15 +20,7 @@
     "pk": 3,
     "fields": {
         "identifier": "drc",
-        "secret": "drc-to-zrc"
-    }
-},
-{
-    "model": "zds_schema.jwtsecret",
-    "pk": 4,
-    "fields": {
-        "identifier": "brc",
-        "secret": "brc-to-zrc"
+        "secret": "drc-to-brc"
     }
 },
 {
@@ -36,8 +28,8 @@
     "pk": 1,
     "fields": {
         "api_root": "http://localhost:8002/api/v1/",
-        "client_id": "zrc",
-        "secret": "zrc-to-ztc"
+        "client_id": "brc",
+        "secret": "brc-to-ztc"
     }
 },
 {
@@ -45,8 +37,26 @@
     "pk": 2,
     "fields": {
         "api_root": "http://ztc.vng:8000/api/v1/",
-        "client_id": "zrc",
-        "secret": "zrc-to-ztc"
+        "client_id": "brc",
+        "secret": "brc-to-ztc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 3,
+    "fields": {
+        "api_root": "http://localhost:8000/api/v1/",
+        "client_id": "brc",
+        "secret": "brc-to-zrc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 4,
+    "fields": {
+        "api_root": "http://zrc.vng:8000/api/v1/",
+        "client_id": "brc",
+        "secret": "brc-to-zrc"
     }
 }
 ]

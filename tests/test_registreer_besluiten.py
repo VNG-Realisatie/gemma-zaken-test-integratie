@@ -13,12 +13,16 @@ from .utils import encode_file, get_uuid
 
 
 @pytest.mark.incremental
-@pytest.mark.xfail(reason="BRC not final yet")
 class TestBesluiten:
 
     def test_creeer_zaak(self, state, zrc_client, ztc_client):
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
+
+        zrc_client.auth.set_claims(
+            scopes=['zds.scopes.zaken.aanmaken'],
+            zaaktypes=[zaaktype['url']]
+        )
 
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
@@ -37,7 +41,7 @@ class TestBesluiten:
         besluit = brc_client.create('besluit', {
             'verantwoordelijkeOrganisatie': '517439943',
             'besluittype': besluittype['url'],
-            'datum': '2018-09-12T14:46:26+0200',
+            'datum': '2018-09-12',
             'ingangsdatum': '2018-09-13',
             'zaak': state.zaak['url'],
         })
@@ -69,7 +73,6 @@ class TestBesluiten:
             'informatieobject': document['url'],
             'object': state.besluit['url'],
             'objectType': 'besluit',
-            'registratiedatum': '2018-09-12T16:25:36+0200',
         })
 
         assert 'url' in oio
@@ -80,7 +83,6 @@ class TestBesluiten:
                 'informatieobject': state.document['url'],
                 'object': state.besluit['url'],
                 'objectType': 'besluit',
-                'registratiedatum': '2018-09-12T16:25:59+0200',
             })
 
         assert exc.value.args[0]['status'] == 400

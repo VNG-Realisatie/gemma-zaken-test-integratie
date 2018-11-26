@@ -58,5 +58,23 @@
         "client_id": "drc",
         "secret": "drc-to-zrc"
     }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 5,
+    "fields": {
+        "api_root": "http://localhost:8003/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-brc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 6,
+    "fields": {
+        "api_root": "http://brc.vng:8000/api/v1/",
+        "client_id": "drc",
+        "secret": "drc-to-brc"
+    }
 }
 ]

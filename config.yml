@@ -31,9 +31,10 @@ brc:
   scheme: http
   host: localhost
   port: 8003
-  # auth:
-  #   secret: brc-super-secret-key
-  #   scopes: []
+  auth:
+    client_id: zit
+    secret: brc-super-secret-key
+    scopes: []
 
 orc:
   scheme: http
