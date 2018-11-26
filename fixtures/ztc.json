@@ -188,7 +188,7 @@
 },
 {
     "model": "datamodel.statustype",
-    "pk": 1,
+    "pk": 2,
     "fields": {
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,

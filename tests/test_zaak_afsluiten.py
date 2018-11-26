@@ -15,6 +15,11 @@ class TestZaakAfsluiten:
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
 
+        zrc_client.auth.set_claims(
+            scopes=['zds.scopes.zaken.aanmaken'],
+            zaaktypes=[zaaktype['url']]
+        )
+
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
             'bronorganisatie': '517439943',
@@ -28,6 +33,14 @@ class TestZaakAfsluiten:
         state.zaak = zaak
 
     def test_zet_initiele_status(self, state, zrc_client, ztc_client):
+        zrc_client.auth.set_claims(
+            scopes=[
+                'zds.scopes.zaken.lezen',
+                'zds.scopes.statussen.toevoegen'
+            ],
+            zaaktypes=[state.zaaktype['url']]
+        )
+
         statustype = ztc_client.retrieve(
             'statustype', catalogus_uuid=CATALOGUS_UUID,
             zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID
@@ -46,12 +59,21 @@ class TestZaakAfsluiten:
         assert 'url' in status
         state.status_1 = status
 
-        zaak = zrc_client.retrieve('zaak', uuid=state.zaak['uuid'])
+        zaak = zrc_client.retrieve('zaak', url=state.zaak['url'])
+
         assert zaak['einddatum'] is None
         assert zaak['status'] == status['url']
         state.zaak = zaak
 
     def test_zet_eind_status(self, state, zrc_client, ztc_client):
+        zrc_client.auth.set_claims(
+            scopes=[
+                'zds.scopes.zaken.lezen',
+                'zds.scopes.statussen.toevoegen'
+            ],
+            zaaktypes=[state.zaaktype['url']]
+        )
+
         statustype = ztc_client.retrieve(
             'statustype', catalogus_uuid=CATALOGUS_UUID,
             zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_2_UUID
@@ -70,7 +92,8 @@ class TestZaakAfsluiten:
         assert 'url' in status
         state.status_2 = status
 
-        zaak = zrc_client.retrieve('zaak', uuid=state.zaak['uuid'])
+        zaak = zrc_client.retrieve('zaak', url=state.zaak['url'])
+
         assert zaak['einddatum'] == '2018-10-18'
         assert zaak['status'] == status['url']
         state.zaak = zaak
