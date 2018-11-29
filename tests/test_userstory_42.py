@@ -29,14 +29,14 @@ def test_opvragen_zaken_binnen_geometrie(zrc_client, ztc_client):
     zaak1 = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
         'bronorganisatie': '517439943',
-        'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
+        'verantwoordelijkeOrganisatie': '223122166',
         'startdatum': '2018-06-18',
         'registratiedatum': '2018-06-18',
     })
     zaak2 = zrc_client.create('zaak', {
         'zaaktype': zaaktype['url'],
         'bronorganisatie': '517439943',
-        'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
+        'verantwoordelijkeOrganisatie': '223122166',
         'startdatum': '2018-08-13',
         'registratiedatum': '2018-08-13',
         'zaakgeometrie': {
@@ -50,7 +50,7 @@ def test_opvragen_zaken_binnen_geometrie(zrc_client, ztc_client):
     zaak3 = zrc_client.create('zaak', {
         'zaaktype': zaaktype2['url'],
         'bronorganisatie': '517439943',
-        'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
+        'verantwoordelijkeOrganisatie': '223122166',
         'startdatum': '2018-08-13',
         'registratiedatum': '2018-08-13',
         'zaakgeometrie': {
