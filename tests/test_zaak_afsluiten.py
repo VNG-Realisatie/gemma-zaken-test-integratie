@@ -23,7 +23,7 @@ class TestZaakAfsluiten:
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
             'bronorganisatie': '517439943',
-            'verantwoordelijkeOrganisatie': 'https://example.com/een_organisatie',
+            'verantwoordelijkeOrganisatie': '223122166',
             'startdatum': '2018-10-01',
         })
 
