@@ -9,7 +9,7 @@ from .constants import BASE_DIR
 
 CONFIG_FILE = os.path.join(BASE_DIR, 'config.yml')
 
-Client.load_config(BASE_DIR, CONFIG_FILE)
+Client.load_config(CONFIG_FILE)
 
 _zrc_client = Client('zrc')
 _drc_client = Client('drc')
