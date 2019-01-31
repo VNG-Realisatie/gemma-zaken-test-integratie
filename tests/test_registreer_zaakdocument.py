@@ -43,6 +43,7 @@ class TestZaakInformatieObjecten:
 
         document = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
+            'bronorganisatie': '517439943',
             'titel': 'zaak_samenvatting.txt',
             'auteur': 'Jos den Homeros',
             'taal': 'dut',
@@ -101,6 +102,7 @@ class TestZaakInformatieObjecten:
         """
         document2 = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
+            'bronorganisatie': '517439943',
             'titel': 'zaak_samenvatting.txt',
             'auteur': 'Jos den Homeros',
             'taal': 'dut',
