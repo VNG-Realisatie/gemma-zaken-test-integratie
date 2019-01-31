@@ -39,6 +39,10 @@ brc:
   scheme: http
   host: brc.vng
   port: 8000
+  auth:
+    client_id: zit
+    secret: brc-super-secret-key
+    scopes: []
 
 orc:
   scheme: http
