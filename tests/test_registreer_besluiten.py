@@ -60,6 +60,7 @@ class TestBesluiten:
 
         document = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
+            'bronorganisatie': '517439943',
             'titel': 'besluit.txt',
             'auteur': 'Jos den Homeros',
             'taal': 'dut',
@@ -109,6 +110,7 @@ class TestBesluiten:
         """
         document2 = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
+            'bronorganisatie': '517439943',
             'titel': 'besluit.txt',
             'auteur': 'Jos den Homeros',
             'taal': 'dut',
