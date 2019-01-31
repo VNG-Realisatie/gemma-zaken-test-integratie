@@ -126,7 +126,7 @@
         "vertrouwelijkheidaanduiding": null,
         "model": "[]",
         "toelichting": null,
-        "maakt_deel_uit_van": 1
+        "catalogus": 1
     }
 },
 {
@@ -172,7 +172,7 @@
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
         "uuid": "b7402827-8e7f-4081-ac24-7911b8929f97",
-        "is_van": 1,
+        "zaaktype": 1,
         "statustype_omschrijving": "Melding geregistreerd",
         "statustype_omschrijving_generiek": "",
         "statustypevolgnummer": 1,
@@ -193,7 +193,7 @@
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
         "uuid": "f9e33078-6907-40ec-8e9a-57d6a1a7df54",
-        "is_van": 1,
+        "zaaktype": 1,
         "statustype_omschrijving": "Melding afgesloten",
         "statustype_omschrijving_generiek": "",
         "statustypevolgnummer": 2,
@@ -208,38 +208,6 @@
     }
 },
 {
-    "model": "datamodel.productdienst",
-    "pk": 1,
-    "fields": {
-        "naam": "Waterdienst",
-        "link": null
-    }
-},
-{
-    "model": "datamodel.productdienst",
-    "pk": 2,
-    "fields": {
-        "naam": "Straatnet",
-        "link": null
-    }
-},
-{
-    "model": "datamodel.referentieproces",
-    "pk": 1,
-    "fields": {
-        "naam": "zwerfvuil opruimen",
-        "link": null
-    }
-},
-{
-    "model": "datamodel.referentieproces",
-    "pk": 2,
-    "fields": {
-        "naam": "Reparatie voetpad",
-        "link": null
-    }
-},
-{
     "model": "datamodel.zaaktype",
     "pk": 1,
     "fields": {
@@ -249,33 +217,33 @@
         "zaaktype_identificatie": 1,
         "zaaktype_omschrijving": "Zwerfvuil op het water",
         "zaaktype_omschrijving_generiek": "",
-        "zaakcategorie": null,
+        "zaakcategorie": "",
         "doel": "Schoonhouden van de Amsterdamse grachten",
         "aanleiding": "Melding van zwerfvuil op het water",
-        "toelichting": null,
+        "toelichting": "",
         "indicatie_intern_of_extern": "Extern",
         "handeling_initiator": "melden",
         "onderwerp": "Melding",
         "handeling_behandelaar": "verwijderen",
         "doorlooptijd_behandeling": "30 00:00:00",
         "servicenorm_behandeling": null,
-        "opschorting_aanhouding_mogelijk": "J",
-        "verlenging_mogelijk": "J",
-        "verlengingstermijn": 14,
-        "trefwoord": "[]",
+        "opschorting_en_aanhouding_mogelijk": true,
+        "verlenging_mogelijk": true,
+        "verlengingstermijn": "14 00:00",
+        "trefwoorden": "[]",
         "archiefclassificatiecode": null,
         "vertrouwelijkheidaanduiding": "OPENBAAR",
         "verantwoordelijke": "Waternet",
-        "publicatie_indicatie": "N",
-        "publicatietekst": null,
+        "publicatie_indicatie": false,
+        "publicatietekst": "",
         "verantwoordingsrelatie": "[]",
         "versiedatum": "2018-06-04",
-        "referentieproces": 1,
+        "referentieproces_naam": "zwerfvuil opruimen",
         "broncatalogus": null,
         "bronzaaktype": null,
-        "maakt_deel_uit_van": 1,
-        "product_dienst": [
-            1
+        "catalogus": 1,
+        "producten_of_diensten": [
+            "https://example.com/dienst/123"
         ],
         "formulier": [],
         "is_deelzaaktype_van": []
@@ -291,33 +259,33 @@
         "zaaktype_identificatie": 2,
         "zaaktype_omschrijving": "Losse stoeptegel",
         "zaaktype_omschrijving_generiek": "",
-        "zaakcategorie": null,
+        "zaakcategorie": "",
         "doel": "Melden van kapotte openbare wegen",
         "aanleiding": "Melding van defect aan voetpaden",
-        "toelichting": null,
+        "toelichting": "",
         "indicatie_intern_of_extern": "Intern",
         "handeling_initiator": "melden",
         "onderwerp": "Melding losse stoeptegel",
         "handeling_behandelaar": "behandelen",
         "doorlooptijd_behandeling": "14 00:00:00",
         "servicenorm_behandeling": null,
-        "opschorting_aanhouding_mogelijk": "J",
-        "verlenging_mogelijk": "J",
-        "verlengingstermijn": 14,
-        "trefwoord": "[]",
+        "opschorting_en_aanhouding_mogelijk": true,
+        "verlenging_mogelijk": true,
+        "verlengingstermijn": "14 00:00",
+        "trefwoorden": "[]",
         "archiefclassificatiecode": null,
         "vertrouwelijkheidaanduiding": "OPENBAAR",
         "verantwoordelijke": "BAM",
-        "publicatie_indicatie": "J",
-        "publicatietekst": null,
+        "publicatie_indicatie": true,
+        "publicatietekst": "",
         "verantwoordingsrelatie": "[]",
         "versiedatum": "2018-06-04",
-        "referentieproces": 2,
+        "referentieproces_naam": "Reparatie voetpad",
         "broncatalogus": null,
         "bronzaaktype": null,
-        "maakt_deel_uit_van": 1,
-        "product_dienst": [
-            2
+        "catalogus": 1,
+        "producten_of_diensten": [
+            "https://example.com/product/123"
         ],
         "formulier": [],
         "is_deelzaaktype_van": []
