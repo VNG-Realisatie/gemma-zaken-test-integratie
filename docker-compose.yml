@@ -34,7 +34,7 @@ services:
 
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.9.1
+    image: vngr/gemma-zrc:0.9.2
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
@@ -45,7 +45,7 @@ services:
       - zrc_db
 
   drc.vng:
-    image: vngr/gemma-drc:0.7.0
+    image: vngr/gemma-drc:0.7.1
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
       - SECRET_KEY=h1kluf9r2yhcfr_i!fqb!srx=!u@!^b_gdl54=h0n15j34*+#=
@@ -61,7 +61,7 @@ services:
       - drc_db
 
   ztc.vng:
-    image: vngr/gemma-ztc:0.8.1
+    image: vngr/gemma-ztc:0.8.2
     environment:
       - DJANGO_SETTINGS_MODULE=ztc.conf.docker
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
