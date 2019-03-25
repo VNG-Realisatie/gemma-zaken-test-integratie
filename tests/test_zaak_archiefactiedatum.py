@@ -6,7 +6,7 @@ In this testcase we check case when Zaak.archiefactiedatum = brondatum of Zaak +
 import pytest
 
 from .constants import (
-    CATALOGUS_UUID, RESULTAATTYPE_UUID, ZAAKTYPE_UUID, STATUSTYPE_2_UUID
+    CATALOGUS_UUID, RESULTAATTYPE_UUID, STATUSTYPE_2_UUID, ZAAKTYPE_UUID
 )
 
 
