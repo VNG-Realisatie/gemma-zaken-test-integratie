@@ -44,6 +44,11 @@ until curl -sSf http://localhost:8003/ > /dev/null; do
     sleep 1
 done
 
+until curl -sSf http://localhost:8004/ > /dev/null; do
+    >&2 echo "Waiting until NC is up..."
+    sleep 1
+done
+
 until curl -sSf http://localhost:8010/ > /dev/null; do
     >&2 echo "Waiting until ORC is up..."
     sleep 1
@@ -56,7 +61,7 @@ done
 #     exec -u postgres zrc_db \
 #         update-postgis.sh
 
-FIXTURES=(zrc drc ztc brc)
+FIXTURES=(zrc drc ztc brc nc)
 
 # load fixtures in parallel
 for service in "${FIXTURES[@]}"; do

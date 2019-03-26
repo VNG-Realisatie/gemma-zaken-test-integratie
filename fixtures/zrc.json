@@ -48,5 +48,23 @@
         "client_id": "zrc",
         "secret": "zrc-to-ztc"
     }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 3,
+    "fields": {
+        "api_root": "http://localhost:8004/api/v1/",
+        "client_id": "zrc",
+        "secret": "zrc-to-nc"
+    }
+},
+{
+    "model": "zds_schema.apicredential",
+    "pk": 4,
+    "fields": {
+        "api_root": "http://nc.vng:8000/api/v1/",
+        "client_id": "zrc",
+        "secret": "zrc-to-nc"
+    }
 }
 ]

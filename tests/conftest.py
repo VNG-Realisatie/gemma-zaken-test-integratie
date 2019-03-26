@@ -16,6 +16,7 @@ _drc_client = Client('drc')
 _ztc_client = Client('ztc')
 _brc_client = Client('brc')
 _orc_client = Client('orc')
+_nc_client = Client('nc')
 
 
 @pytest.fixture
@@ -88,6 +89,13 @@ def orc_client():
     # reset auth between tests
     _orc_client._init_auth()
     return _orc_client
+
+
+@pytest.fixture
+def nc_client():
+    # reset auth between tests
+    _nc_client._init_auth()
+    return _nc_client
 
 
 class State(dict):
