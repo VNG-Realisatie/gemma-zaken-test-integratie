@@ -9,8 +9,8 @@ Test whole notification process:
 - receive notification
 """
 import pytest
-
 from zds_client import ClientAuth
+
 from .constants import CATALOGUS_UUID, ZAAKTYPE_UUID
 
 
@@ -102,4 +102,3 @@ class TestNotificatie:
         state.zaak = zaak
 
         # TODO check if the notif message was delievered to subscriber (drc) ???
-
