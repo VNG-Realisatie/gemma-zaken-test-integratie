@@ -49,6 +49,14 @@ orc:
   host: orc.vng
   port: 8000
 
+nc:
+  scheme: http
+  host: nc.vng
+  port: 8000
+  auth:
+    client_id: zit
+    secret: zrc-super-secret-key
+    scopes: []
 EOL
 
 echo "Using config:"

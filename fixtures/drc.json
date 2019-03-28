@@ -76,5 +76,13 @@
         "client_id": "drc",
         "secret": "drc-to-brc"
     }
+},
+{
+    "model": "zds_schema.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "nc",
+        "secret": "nc-to-zrc"
+    }
 }
 ]

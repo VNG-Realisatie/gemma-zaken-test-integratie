@@ -69,8 +69,7 @@ def test_opvragen_zaken_binnen_geometrie(zrc_client, ztc_client):
             'within': amsterdam_centrum
         }
     })
-
-    result_urls = [zaak['url'] for zaak in zoek_result]
+    result_urls = [zaak['url'] for zaak in zoek_result['results']]
 
     assert zaak1['url'] not in result_urls
     assert zaak2['url'] in result_urls

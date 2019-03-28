@@ -43,3 +43,12 @@ orc:
   # auth:
   #   secret: orc-super-secret-key
   #   scopes: []
+
+nc:
+  scheme: http
+  host: localhost
+  port: 8004
+  auth:
+    client_id: zit
+    secret: zrc-super-secret-key
+    scopes: []
