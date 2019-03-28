@@ -322,5 +322,20 @@
         "identifier": "brc",
         "secret": "brc-to-ztc"
     }
+},
+{
+    "model": "datamodel.resultaattype",
+    "pk": 1,
+    "fields": {
+        "datum_begin_geldigheid": "2018-06-04",
+        "datum_einde_geldigheid": null,
+        "uuid": "42e85d1e-f3fd-40be-b39a-72b67f73ea8d",
+        "omschrijving": "verleend",
+        "omschrijving_generiek": "verleend",
+        "archiefnominatie": "vernietigen",
+        "archiefactietermijn": "30 00:00:00",
+        "zaaktype": 1,
+        "brondatum_archiefprocedure_afleidingswijze": "afgehandeld"
+    }
 }
 ]
