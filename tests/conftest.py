@@ -60,7 +60,8 @@ def png_file(request):
 def zrc_client():
     # reset auth between tests
     if hasattr(_zrc_client.auth, '_credentials'):
-        _zrc_client.auth.claims = {}
+        claims = _zrc_client._config.auth.claims.copy()
+        _zrc_client.auth.claims = claims
         del _zrc_client.auth._credentials
     return _zrc_client
 
@@ -69,7 +70,8 @@ def zrc_client():
 def drc_client():
     # reset auth between tests
     if hasattr(_drc_client.auth, '_credentials'):
-        _drc_client.auth.claims = {}
+        claims = _drc_client._config.auth.claims.copy()
+        _drc_client.auth.claims = claims
         del _drc_client.auth._credentials
     return _drc_client
 
@@ -78,7 +80,8 @@ def drc_client():
 def ztc_client():
     # reset auth between tests
     if hasattr(_ztc_client.auth, '_credentials'):
-        _ztc_client.auth.claims = {}
+        claims = _ztc_client._config.auth.claims.copy()
+        _ztc_client.auth.claims = claims
         del _ztc_client.auth._credentials
     return _ztc_client
 
@@ -87,7 +90,8 @@ def ztc_client():
 def brc_client():
     # reset auth between tests
     if hasattr(_brc_client.auth, '_credentials'):
-        _brc_client.auth.claims = {}
+        claims = _brc_client._config.auth.claims.copy()
+        _brc_client.auth.claims = claims
         del _brc_client.auth._credentials
     return _brc_client
 
@@ -96,7 +100,8 @@ def brc_client():
 def orc_client():
     # reset auth between tests
     if hasattr(_orc_client.auth, '_credentials'):
-        _orc_client.auth.claims = {}
+        claims = _orc_client._config.auth.claims.copy()
+        _orc_client.auth.claims = claims
         del _orc_client.auth._credentials
     return _orc_client
 
@@ -105,7 +110,8 @@ def orc_client():
 def nc_client():
     # reset auth between tests
     if hasattr(_nc_client.auth, '_credentials'):
-        _nc_client.auth.claims = {}
+        claims = _nc_client._config.auth.claims.copy()
+        _nc_client.auth.claims = claims
         del _nc_client.auth._credentials
     return _nc_client
 
