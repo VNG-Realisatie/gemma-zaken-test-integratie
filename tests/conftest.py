@@ -59,42 +59,54 @@ def png_file(request):
 @pytest.fixture
 def zrc_client():
     # reset auth between tests
-    _zrc_client._init_auth()
+    if hasattr(_zrc_client.auth, '_credentials'):
+        _zrc_client.auth.claims = {}
+        del _zrc_client.auth._credentials
     return _zrc_client
 
 
 @pytest.fixture
 def drc_client():
     # reset auth between tests
-    _drc_client._init_auth()
+    if hasattr(_drc_client.auth, '_credentials'):
+        _drc_client.auth.claims = {}
+        del _drc_client.auth._credentials
     return _drc_client
 
 
 @pytest.fixture
 def ztc_client():
     # reset auth between tests
-    _ztc_client._init_auth()
+    if hasattr(_ztc_client.auth, '_credentials'):
+        _ztc_client.auth.claims = {}
+        del _ztc_client.auth._credentials
     return _ztc_client
 
 
 @pytest.fixture
 def brc_client():
     # reset auth between tests
-    _brc_client._init_auth()
+    if hasattr(_brc_client.auth, '_credentials'):
+        _brc_client.auth.claims = {}
+        del _brc_client.auth._credentials
     return _brc_client
 
 
 @pytest.fixture
 def orc_client():
     # reset auth between tests
-    _orc_client._init_auth()
+    if hasattr(_orc_client.auth, '_credentials'):
+        _orc_client.auth.claims = {}
+        del _orc_client.auth._credentials
     return _orc_client
 
 
 @pytest.fixture
 def nc_client():
     # reset auth between tests
-    _nc_client._init_auth()
+    if hasattr(_nc_client.auth, '_credentials'):
+        _nc_client.auth.claims = {}
+        del _nc_client.auth._credentials
     return _nc_client
 
 
