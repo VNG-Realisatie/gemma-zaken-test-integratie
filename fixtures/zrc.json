@@ -1,6 +1,6 @@
 [
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 1,
     "fields": {
         "identifier": "maykinmedia",
@@ -8,7 +8,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 2,
     "fields": {
         "identifier": "zit",
@@ -16,7 +16,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 3,
     "fields": {
         "identifier": "drc",
@@ -24,7 +24,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 4,
     "fields": {
         "identifier": "brc",
@@ -32,7 +32,7 @@
     }
 },
 {
-    "model": "zds_schema.apicredential",
+    "model": "vng_api_common.apicredential",
     "pk": 1,
     "fields": {
         "api_root": "http://localhost:8002/api/v1/",
@@ -41,7 +41,7 @@
     }
 },
 {
-    "model": "zds_schema.apicredential",
+    "model": "vng_api_common.apicredential",
     "pk": 2,
     "fields": {
         "api_root": "http://ztc.vng:8000/api/v1/",
@@ -50,7 +50,7 @@
     }
 },
 {
-    "model": "zds_schema.apicredential",
+    "model": "vng_api_common.apicredential",
     "pk": 3,
     "fields": {
         "api_root": "http://localhost:8004/api/v1/",
@@ -59,7 +59,7 @@
     }
 },
 {
-    "model": "zds_schema.apicredential",
+    "model": "vng_api_common.apicredential",
     "pk": 4,
     "fields": {
         "api_root": "http://nc.vng:8000/api/v1/",

@@ -292,7 +292,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 1,
     "fields": {
         "identifier": "zit",
@@ -300,7 +300,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 2,
     "fields": {
         "identifier": "zrc",
@@ -308,7 +308,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 3,
     "fields": {
         "identifier": "drc",
@@ -316,7 +316,7 @@
     }
 },
 {
-    "model": "zds_schema.jwtsecret",
+    "model": "vng_api_common.jwtsecret",
     "pk": 4,
     "fields": {
         "identifier": "brc",
