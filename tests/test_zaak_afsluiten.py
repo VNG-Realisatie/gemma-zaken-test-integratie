@@ -5,8 +5,8 @@ import pytest
 from zds_client import ClientError
 
 from .constants import (
-    CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, STATUSTYPE_2_UUID,
-    STATUSTYPE_UUID, ZAAKTYPE_UUID
+    CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, RESULTAATTYPE_UUID,
+    STATUSTYPE_2_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
 )
 from .utils import encode_file, get_uuid
 
@@ -67,6 +67,29 @@ class TestZaakAfsluiten:
         assert zaak['einddatum'] is None
         assert zaak['status'] == status['url']
         state.zaak = zaak
+
+    def test_zet_resultaat(self, state, zrc_client, ztc_client):
+        """
+        A resultaat is needed before you can close the case.
+        """
+        zrc_client.auth.set_claims(
+            scopes=[
+                'zds.scopes.zaken.lezen',
+                'zds.scopes.zaken.bijwerken'
+            ],
+            zaaktypes=[state.zaaktype['url']]
+        )
+        resultaattype = ztc_client.retrieve('resultaattype', uuid=RESULTAATTYPE_UUID)
+
+        assert 'url' in resultaattype
+
+        resultaat = zrc_client.create('resultaat', {
+            'zaak': state.zaak['url'],
+            'resultaatType': resultaattype['url'],
+            'toelichting': 'Een toelichting op wat het resultaat',
+        })
+
+        assert 'url' in resultaat
 
     def test_zet_eind_status(self, state, zrc_client, ztc_client):
         zrc_client.auth.set_claims(
@@ -215,6 +238,29 @@ class TestZaakAfsluitenMetInformatieObjecten:
 
         assert exc_context.value.args[0]['status'] == 400
         assert exc_context.value.args[0]['invalid-params'][0]['code'] == 'indicatiegebruiksrecht-unset'
+
+    def test_zet_resultaat(self, state, zrc_client, ztc_client):
+        """
+        A resultaat is needed before you can close the case.
+        """
+        zrc_client.auth.set_claims(
+            scopes=[
+                'zds.scopes.zaken.lezen',
+                'zds.scopes.zaken.bijwerken'
+            ],
+            zaaktypes=[state.zaaktype['url']]
+        )
+        resultaattype = ztc_client.retrieve('resultaattype', uuid=RESULTAATTYPE_UUID)
+
+        assert 'url' in resultaattype
+
+        resultaat = zrc_client.create('resultaat', {
+            'zaak': state.zaak['url'],
+            'resultaatType': resultaattype['url'],
+            'toelichting': 'Een toelichting op wat het resultaat',
+        })
+
+        assert 'url' in resultaat
 
     def test_update_indicatiegebruiksrecht(self, state, zrc_client, drc_client):
         document = drc_client.partial_update(
