@@ -119,11 +119,11 @@
         "datum_begin_geldigheid": "2018-06-04",
         "datum_einde_geldigheid": null,
         "uuid": "09895889-36d9-43c5-9a52-4b30ca2532b6",
-        "informatieobjecttype_omschrijving": "Generieke bijlage",
-        "informatieobjecttype_omschrijving_generiek": null,
+        "omschrijving": "Generieke bijlage",
+        "omschrijving_generiek": null,
         "informatieobjectcategorie": "bijlagen",
-        "informatieobjecttypetrefwoord": "[]",
-        "vertrouwelijkheidaanduiding": null,
+        "trefwoord": "[]",
+        "vertrouwelijkheidaanduiding": "openbaar",
         "model": "[]",
         "toelichting": null,
         "catalogus": 1
@@ -333,7 +333,7 @@
         "omschrijving": "verleend",
         "omschrijving_generiek": "verleend",
         "archiefnominatie": "vernietigen",
-        "archiefactietermijn": "30 00:00:00",
+        "archiefactietermijn": "P30D",
         "zaaktype": 1,
         "brondatum_archiefprocedure_afleidingswijze": "afgehandeld"
     }
