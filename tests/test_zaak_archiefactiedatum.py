@@ -34,6 +34,26 @@ class TestZaakArchiefactiedatum:
         assert zaak['archiefactiedatum'] is None
         state.zaak = zaak
 
+    def test_create_resultaat(self, state, zrc_client, ztc_client):
+        zrc_client.auth.set_claims(
+            scopes=[
+                'zds.scopes.zaken.lezen',
+                'zds.scopes.zaken.bijwerken'
+            ],
+            zaaktypes=[state.zaaktype['url']]
+        )
+        resultaattype = ztc_client.retrieve('resultaattype', uuid=RESULTAATTYPE_UUID)
+
+        assert 'url' in resultaattype
+
+        resultaat = zrc_client.create('resultaat', {
+            'zaak': state.zaak['url'],
+            'resultaatType': resultaattype['url'],
+            'toelichting': 'Een toelichting op wat het resultaat',
+        })
+
+        assert 'url' in resultaat
+
     def test_create_status(self, state, zrc_client, ztc_client):
         """
         to calculate archiefactiedatum we need zaak brondatum
@@ -68,30 +88,4 @@ class TestZaakArchiefactiedatum:
         zaak = zrc_client.retrieve('zaak', url=state.zaak['url'])
 
         assert zaak['einddatum'] == '2018-10-18'
-        state.zaak = zaak
-
-    def test_create_resultaat(self, state, zrc_client, ztc_client):
-        zrc_client.auth.set_claims(
-            scopes=[
-                'zds.scopes.zaken.lezen',
-                'zds.scopes.zaken.bijwerken'
-            ],
-            zaaktypes=[state.zaaktype['url']]
-        )
-        resultaattype = ztc_client.retrieve(
-            'resultaattype',catalogus_uuid=CATALOGUS_UUID,
-            uuid=RESULTAATTYPE_UUID, zaaktype_uuid=ZAAKTYPE_UUID)
-
-        assert 'url' in resultaattype
-
-        resultaat = zrc_client.create('resultaat', {
-            'zaak': state.zaak['url'],
-            'resultaatType': resultaattype['url'],
-            'toelichting': 'Een toelichting op wat het resultaat',
-        })
-
-        assert 'url' in resultaat
-
-        zaak = zrc_client.retrieve('zaak', url=state.zaak['url'])
-
         assert zaak['archiefactiedatum'] == '2018-11-17'

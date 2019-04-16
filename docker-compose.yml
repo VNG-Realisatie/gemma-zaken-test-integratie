@@ -39,7 +39,7 @@ services:
 
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.13.0
+    image: vngr/gemma-zrc:0.13.1
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
