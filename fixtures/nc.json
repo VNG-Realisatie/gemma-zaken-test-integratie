@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "identifier": "zit",
-        "secret": "zrc-super-secret-key"
+        "secret": "zit-super-secret-key"
     }
 },
 {

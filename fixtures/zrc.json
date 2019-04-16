@@ -66,5 +66,14 @@
         "client_id": "zrc",
         "secret": "zrc-to-nc"
     }
+},
+{
+    "model": "notifications.notificationsconfig",
+    "pk": 1,
+    "fields": {
+        "api_root": "https://ref.tst.vng.cloud/nrc/api/v1",
+        "client_id": "",
+        "secret": ""
+    }
 }
 ]

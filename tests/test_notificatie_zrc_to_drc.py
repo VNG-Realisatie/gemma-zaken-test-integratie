@@ -1,5 +1,6 @@
 """
-Test whole notification process:
+Test whole notification process
+
 1. producer side (zrc):
 - registering kanaal
 - sending notification
@@ -49,22 +50,21 @@ class TestNotificatie:
             scopes=['notificaties.scopes.publiceren']
         )
 
-        # can't reat url from spec, because it isn't added to schema
+        # can't read url from spec, because it isn't added to schema
         # not working because /callbacks endpoint is not included in drc
         callback_url = '{}callbacks'.format(drc_client.base_url)
 
         data = {
             'callbackUrl': callback_url,
             'auth': drc_auth.credentials()['Authorization'],
-            'kanalen': [
-                {"naam": state.kanaal['naam'],
-                 "filters": [
-                    {"bronorganisatie": "517439943"},
-                    {"zaaktype": "*"},
-                    {"vertrouwelijkheidaanduiding": "*"}
-                 ],
+            'kanalen': [{
+                "naam": state.kanaal['naam'],
+                "filters": {
+                    "bronorganisatie": "517439943",
+                    "zaaktype": "*",
+                    "vertrouwelijkheidaanduiding": "*",
                 }
-            ],
+            }],
         }
 
         # check if subscriber exists - for local testing:
@@ -81,6 +81,9 @@ class TestNotificatie:
     def test_zrc_send_notif(self, state, zrc_client, ztc_client):
         """
         create Zaak object to send notification
+
+        FIXME: get the notif config in ZRC correct so that it uses a proper,
+        controlled NRC
         """
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
@@ -101,4 +104,4 @@ class TestNotificatie:
         assert 'url' in zaak
         state.zaak = zaak
 
-        # TODO check if the notif message was delievered to subscriber (drc) ???
+        # TODO check if the notif message was delivered to subscriber (drc) ???
