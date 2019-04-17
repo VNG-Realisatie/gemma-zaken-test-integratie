@@ -1,7 +1,7 @@
 pip-tools
 requests
 Pillow
-gemma-zds-client==0.8.0
+gemma-zds-client==0.9.5
 
 isort
 pytest

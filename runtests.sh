@@ -55,7 +55,7 @@ nc:
   port: 8000
   auth:
     client_id: zit
-    secret: zrc-super-secret-key
+    secret: zit-super-secret-key
     scopes: []
 EOL
 
