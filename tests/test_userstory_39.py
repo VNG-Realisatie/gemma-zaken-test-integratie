@@ -104,9 +104,13 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
     text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', uuid=txt_object_uuid)
 
     # Test if the attached filed is our initial file
-    file = drc_client.request(text_attachment['inhoud'], 'enkelvoudiginformatieobject_download')
-
-    # file = requests.get(text_attachment['inhoud'])
+    drc_auth = ClientAuth(
+        client_id='demo',
+        secret='demo',
+        user_id='demo',
+        user_representation='demo'
+    )
+    file = requests.get(text_attachment['inhoud'], headers=drc_auth.credentials())
     assert file.content == byte_content
 
     byte_content = png_file.getvalue()
@@ -126,24 +130,26 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
     })
 
     # Link the files to a 'Zaak' with POST /objectinformatieobjecten (ZRC)
-    objectinformatieobject_1 = drc_client.create('objectinformatieobject', {
+    zaakinformatieobject_1 = zrc_client.create('zaakinformatieobject', {
         'informatieobject': text_attachment['url'],
-        'object': zaak['url'],
-        'objectType': 'zaak',
-        'registratiedatum': '2018-09-19T16:25:36+0200',
+        'zaak': zaak['url'],
+        'titel': 'some titel',
+        'beschrijving': 'some beschrijving',
+        'aardRelatieWeergave': 'hoort_bij'
     })
-    assert 'url' in objectinformatieobject_1
+    assert 'url' in zaakinformatieobject_1
 
-    objectinformatieobject_2 = drc_client.create('objectinformatieobject', {
+    zaakinformatieobject_2 = zrc_client.create('zaakinformatieobject', {
         'informatieobject': image_attachment['url'],
-        'object': zaak['url'],
-        'objectType': 'zaak',
-        'registratiedatum': '2018-09-19T16:25:36+0200',
+        'zaak': zaak['url'],
+        'titel': 'some titel',
+        'beschrijving': 'some beschrijving',
+        'aardRelatieWeergave': 'hoort_bij'
     })
-    informatie_object_uuid = objectinformatieobject_2['url'].rsplit('/')[-1]
+    zaak_informatie_object_uuid = zaakinformatieobject_2['url'].rsplit('/')[-1]
 
     # Test if it's possible to retrieve ObjectInformatieObject
-    some_informatie_object = drc_client.retrieve('objectinformatieobject', uuid=informatie_object_uuid)
+    some_informatie_object = zrc_client.retrieve('zaakinformatieobject', uuid=zaak_informatie_object_uuid)
 
     # Retrieve the EnkelvoudigInformatieObject from ObjectInformatieObject
     assert 'informatieobject' in some_informatie_object
@@ -152,4 +158,5 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
     image_attachment = drc_client.retrieve('enkelvoudiginformatieobject', uuid=img_object_uuid)
 
     # Test if image correspond to our initial image
-    assert requests.get(image_attachment['inhoud']).content == byte_content
+    image = requests.get(image_attachment['inhoud'], headers=drc_auth.credentials())
+    assert image.content == byte_content
