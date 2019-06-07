@@ -8,7 +8,7 @@ from zds_client import ClientError
 from .constants import (
     BESLUITTYPE_UUID, CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
 )
-from .utils import encode_file, get_uuid
+from .utils import encode_file
 
 
 @pytest.mark.incremental

@@ -6,7 +6,7 @@ import pytest
 from zds_client import ClientError
 
 from .constants import CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, ZAAKTYPE_UUID
-from .utils import encode_file, get_uuid
+from .utils import encode_file
 
 
 @pytest.mark.incremental
@@ -105,7 +105,7 @@ class TestZaakInformatieObjecten:
         })
 
         with pytest.raises(ClientError) as exc_context:
-            result = drc_client.create('objectinformatieobject', {
+            drc_client.create('objectinformatieobject', {
                 'informatieobject': document2['url'],
                 'object': state.zaak['url'],
                 'objectType': 'zaak',
