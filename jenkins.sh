@@ -61,7 +61,7 @@ done
 #     exec -u postgres zrc_db \
 #         update-postgis.sh
 
-FIXTURES=(zrc drc ztc brc nc)
+FIXTURES=(zrc drc ztc brc nc ac)
 
 # load fixtures in parallel
 for service in "${FIXTURES[@]}"; do

@@ -82,7 +82,7 @@
     "model": "authorizations.applicatie",
     "pk": 1,
     "fields": {
-        "client_ids": "demo",
+        "client_ids": ["demo"],
         "label": "demo",
         "heeft_alle_autorisaties": true
     }
