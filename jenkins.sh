@@ -70,7 +70,7 @@ for service in "${FIXTURES[@]}"; do
         -f ./docker-compose.yml \
         -f docker-compose.jenkins.yml \
         run $service.vng \
-            python src/manage.py loaddata fixtures/$service.json &
+            python src/manage.py loaddata fixtures/docker/$service.json &
 
 done
 

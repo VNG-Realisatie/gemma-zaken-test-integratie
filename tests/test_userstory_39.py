@@ -3,12 +3,11 @@ Test that the various service reference implementations play well together.
 
 Ref: https://github.com/VNG-Realisatie/gemma-zaken/issues/39
 """
-
-
 import uuid
 from base64 import b64encode
 
 import requests
+from zds_client.auth import ClientAuth
 
 from .constants import (
     CATALOGUS_UUID, INFORMATIEOBJECTTYPE_UUID, STATUSTYPE_UUID, ZAAKTYPE_UUID
@@ -23,14 +22,6 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
         zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID)
 
     assert status_type['url'] in zaaktype['statustypen']
-
-    zrc_client.auth.set_claims(
-        scopes=[
-            'zds.scopes.zaken.aanmaken',
-            'zds.scopes.zaken.lezen',
-        ],
-        zaaktypes=[zaaktype['url']]
-    )
 
     # registreer zaak
     zaak = zrc_client.create('zaak', {
@@ -113,7 +104,10 @@ def test_melding_overlast(text_file, png_file, zrc_client, drc_client, ztc_clien
     text_attachment = drc_client.retrieve('enkelvoudiginformatieobject', uuid=txt_object_uuid)
 
     # Test if the attached filed is our initial file
-    assert requests.get(text_attachment['inhoud']).content == byte_content
+    file = drc_client.request(text_attachment['inhoud'], 'enkelvoudiginformatieobject_download')
+
+    # file = requests.get(text_attachment['inhoud'])
+    assert file.content == byte_content
 
     byte_content = png_file.getvalue()
     base64_bytes = b64encode(byte_content)

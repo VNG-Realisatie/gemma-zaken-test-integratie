@@ -37,9 +37,15 @@ services:
     volumes:
       - nc_postgres_data:/var/lib/postgresql/data
 
+  ac_db:
+    image: postgres:10
+    volumes:
+      - ac_postgres_data:/var/lib/postgresql/data
+
+
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.13.1
+    image: vngr/gemma-zrc:0.16.0
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
@@ -50,23 +56,22 @@ services:
       - zrc_db
 
   drc.vng:
-    image: vngr/gemma-drc:0.10.0
+    image: vngr/gemma-drc:0.13.0
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
       - SECRET_KEY=h1kluf9r2yhcfr_i!fqb!srx=!u@!^b_gdl54=h0n15j34*+#=
       - DB_HOST=drc_db
-
       - SITE_ID=2
       - IS_HTTPS=0
     volumes:
-      - drc_media:/app/media
+      - drc_media:/app/private-media
     ports:
       - 8001:8000
     depends_on:
       - drc_db
 
   ztc.vng:
-    image: vngr/gemma-ztc:0.11.0
+    image: vngr/gemma-ztc:0.13.0
     environment:
       - DJANGO_SETTINGS_MODULE=ztc.conf.docker
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
@@ -78,7 +83,7 @@ services:
       - ztc_db
 
   brc.vng:
-    image: vngr/gemma-brc:0.9.0
+    image: vngr/gemma-brc:0.11.0
     environment:
       - DJANGO_SETTINGS_MODULE=brc.conf.docker
       - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
@@ -100,7 +105,7 @@ services:
       - orc_db
 
   nc.vng:
-    image: vngr/gemma-notifications:0.5.0
+    image: vngr/gemma-notifications:0.6.3
     environment:
       - DJANGO_SETTINGS_MODULE=notifications.conf.docker
       - SECRET_KEY=rt@lin*q6@wy)xd**5#xz)1p@sqcfj*@w77wn-in2+1zq6*a)m
@@ -110,6 +115,16 @@ services:
     depends_on:
       - nc_db
 
+  ac.vng:
+    image: vngr/gemma-autorisatiecomponent:0.2.5
+    environment:
+      - DJANGO_SETTINGS_MODULE=ac.conf.docker
+      - SECRET_KEY=8u9chcd4g1%i5z)u@s6#c#0u%s_gggx*915w(yzrf#awezmu^i
+      - DB_HOST=ac_db
+    ports:
+      - 8005:8000
+    depends_on:
+      - ac_db
 
 volumes:
   zrc_postgres_data:
@@ -119,3 +134,4 @@ volumes:
   brc_postgres_data:
   orc_postgres_data:
   nc_postgres_data:
+  ac_postgres_data:

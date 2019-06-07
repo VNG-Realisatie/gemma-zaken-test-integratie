@@ -17,18 +17,12 @@ class TestZaakInformatieObjecten:
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
 
-        zrc_client.auth.set_claims(
-            scopes=['zds.scopes.zaken.aanmaken'],
-            zaaktypes=[zaaktype['url']]
-        )
-
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
             'bronorganisatie': '517439943',
             'verantwoordelijkeOrganisatie': '223122166',
             'startdatum': '2018-06-18',
         })
-
         assert 'url' in zaak
         state.zaak = zaak
 
@@ -54,51 +48,51 @@ class TestZaakInformatieObjecten:
         state.document = document
 
     def test_relateer_zaak_en_informatieobject(self, state, zrc_client, drc_client):
-        oio = drc_client.create('objectinformatieobject', {
+        zio = zrc_client.create('zaakinformatieobject', {
             'informatieobject': state.document['url'],
-            'object': state.zaak['url'],
-            'objectType': 'zaak',
-            'registratiedatum': '2018-09-12T16:25:36+0200',
+            'zaak': state.zaak['url'],
+            'titel': 'some titel',
+            'beschrijving': 'some beschrijving',
+            'aardRelatieWeergave': 'hoort_bij'
         })
 
-        assert 'url' in oio
+        assert 'url' in zio
 
         # tweede keer zelfde document mag niet!
+        with pytest.raises(ClientError) as exc_context:
+            zrc_client.create('zaakinformatieobject', {
+                'informatieobject': state.document['url'],
+                'zaak': state.zaak['url'],
+                'titel': 'some titel',
+                'beschrijving': 'some beschrijving',
+                'aardRelatieWeergave': 'hoort_bij'
+            })
+
+        assert exc_context.value.args[0]['status'] == 400
+
+        # objectinformatieobject exists in DRC
+        oio = drc_client.list('objectinformatieobject', {'informatieobject': state.document['url']})
+        assert len(oio) == 1
+
+    def test_relateer_informatieobject_dubbel_drc(self, state, drc_client):
+        """
+        Test that the ObjectInformatieObject may not be duplicated in DRC.
+        This is to protect against unintended DRC-side relation usage.
+        """
         with pytest.raises(ClientError) as exc_context:
             drc_client.create('objectinformatieobject', {
                 'informatieobject': state.document['url'],
                 'object': state.zaak['url'],
                 'objectType': 'zaak',
-                'registratiedatum': '2018-09-12T16:25:59+0200',
+                'registratiedatum': '2018-09-19T16:25:36+0200',
             })
 
         assert exc_context.value.args[0]['status'] == 400
 
-        # zaakinformatieobject moet bestaan in ZRC
-        zaak_uuid = get_uuid(state.zaak)
-        zaakinformatieobjecten = zrc_client.list('zaakinformatieobject', zaak_uuid=zaak_uuid)
-        assert len(zaakinformatieobjecten) == 1
-
-    def test_relateer_informatieobject_dubbel_zrc(self, state, zrc_client):
+    def test_relatie_eerst_in_zrc_dan_drc(self, state, zrc_client, drc_client, text_file):
         """
-        Test that the ZaakInformatieObject may not be duplicated in ZRC.
-
-        This is to protect against unintended ZRC-side relation usage.
-        """
-        zaak_uuid = get_uuid(state.zaak)
-
-        with pytest.raises(ClientError) as exc_context:
-            result = zrc_client.create('zaakinformatieobject', {
-                'informatieobject': state.document['url'],
-            }, zaak_uuid=zaak_uuid)
-            print(result)
-
-        assert exc_context.value.args[0]['status'] == 400
-
-    def test_relatie_eerst_in_drc_dan_zrc(self, state, zrc_client, drc_client, text_file):
-        """
-        Test dat de relatie zaak-informatieobject moet bestaan in het DRC
-        voordat je de symmetrische relatie in het ZRC mag leggen.
+        Test dat de relatie zaak-informatieobject moet bestaan in het ZRC
+        voordat je de symmetrische relatie in het DRC mag leggen.
         """
         document2 = drc_client.create('enkelvoudiginformatieobject', {
             'creatiedatum': '2018-09-12',
@@ -110,11 +104,12 @@ class TestZaakInformatieObjecten:
             'inhoud': encode_file(text_file),
         })
 
-        zaak_uuid = get_uuid(state.zaak)
-
         with pytest.raises(ClientError) as exc_context:
-            zrc_client.create('zaakinformatieobject', {
+            result = drc_client.create('objectinformatieobject', {
                 'informatieobject': document2['url'],
-            }, zaak_uuid=zaak_uuid)
+                'object': state.zaak['url'],
+                'objectType': 'zaak',
+                'registratiedatum': '2018-09-19T16:25:36+0200',
+            })
 
         assert exc_context.value.args[0]['status'] == 400

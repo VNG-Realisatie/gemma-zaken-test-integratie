@@ -17,6 +17,7 @@ _ztc_client = Client('ztc')
 _brc_client = Client('brc')
 _orc_client = Client('orc')
 _nc_client = Client('nc')
+_ac_client = Client('ac')
 
 
 @pytest.fixture
@@ -114,6 +115,16 @@ def nc_client():
         _nc_client.auth.claims = claims
         del _nc_client.auth._credentials
     return _nc_client
+
+
+@pytest.fixture
+def ac_client():
+    # reset auth between tests
+    if hasattr(_ac_client.auth, '_credentials'):
+        claims = _ac_client._config.auth.claims.copy()
+        _ac_client.auth.claims = claims
+        del _ac_client.auth._credentials
+    return _ac_client
 
 
 class State(dict):

@@ -16,33 +16,32 @@ zrc:
   host: zrc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: zrc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
 
 drc:
   scheme: http
   host: drc.vng
   port: 8000
+  auth:
+    client_id: demo
+    secret: demo
 
 ztc:
   scheme: http
   host: ztc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: ztc-super-secret-key
-    scopes:
-      - zds.scopes.zaaktypes.lezen
+    client_id: demo
+    secret: demo
 
 brc:
   scheme: http
   host: brc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: brc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
 
 orc:
   scheme: http
@@ -54,9 +53,16 @@ nc:
   host: nc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: zit-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+
+ac:
+  scheme: http
+  host: ac.vng
+  port: 8000
+  auth:
+    client_id: demo
+    secret: demo
 EOL
 
 echo "Using config:"
