@@ -50,6 +50,7 @@ services:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
       - DB_HOST=zrc_db
+      - IS_HTTPS=0
     ports:
       - 8000:8000
     depends_on:
@@ -88,6 +89,7 @@ services:
       - DJANGO_SETTINGS_MODULE=brc.conf.docker
       - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
       - DB_HOST=brc_db
+      - IS_HTTPS=0
     ports:
       - 8003:8000
     depends_on:

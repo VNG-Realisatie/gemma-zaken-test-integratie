@@ -18,6 +18,8 @@ zrc:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 
 drc:
   scheme: http
@@ -26,6 +28,8 @@ drc:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 
 ztc:
   scheme: http
@@ -34,6 +38,8 @@ ztc:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 
 brc:
   scheme: http
@@ -42,6 +48,8 @@ brc:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 
 orc:
   scheme: http
@@ -55,6 +63,8 @@ nc:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 
 ac:
   scheme: http
@@ -63,6 +73,8 @@ ac:
   auth:
     client_id: demo
     secret: demo
+    user_id: docker
+    user_representation: docker
 EOL
 
 echo "Using config:"

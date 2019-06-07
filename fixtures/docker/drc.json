@@ -1,0 +1,109 @@
+[
+{
+    "model": "vng_api_common.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "demo",
+        "secret": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 1,
+    "fields": {
+        "api_root": "http://zrc.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 7,
+    "fields": {
+        "api_root": "https://zrc.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 3,
+    "fields": {
+        "api_root": "http://ztc.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 4,
+    "fields": {
+        "api_root": "http://brc.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 5,
+    "fields": {
+        "api_root": "http://nc.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 6,
+    "fields": {
+        "api_root": "http://ac.vng:8000/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "authorizations.authorizationsConfig",
+    "pk": 1,
+    "fields": {
+        "component": "DRC",
+        "api_root": "http://ac.vng:8000/api/v1/"
+    }
+},
+{
+    "model": "notifications.notificationsconfig",
+    "pk": 1,
+    "fields": {
+        "api_root": "http://nc.vng:8000/api/v1/"
+    }
+},
+
+{
+    "model": "sites.site",
+    "pk": 1,
+    "fields": {
+        "domain": "drc.vng:8000",
+        "name": "DRC"
+    }
+},
+{
+    "model": "authorizations.applicatie",
+    "pk": 1,
+    "fields": {
+        "client_ids": ["demo"],
+        "label": "demo",
+        "heeft_alle_autorisaties": true
+    }
+}
+]

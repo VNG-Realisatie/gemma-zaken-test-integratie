@@ -1,25 +1,9 @@
 [
 {
     "model": "sites.site",
-    "pk": 1,
-    "fields": {
-        "domain": "ref.tst.vng.cloud",
-        "name": "ref.tst.vng.cloud"
-    }
-},
-{
-    "model": "sites.site",
     "pk": 2,
     "fields": {
-        "domain": "ztc.vng:8000",
-        "name": "ZTC"
-    }
-},
-{
-    "model": "sites.site",
-    "pk": 3,
-    "fields": {
-        "domain": "localhost:8000",
+        "domain": "localhost:8002",
         "name": "ZTC"
     }
 },
@@ -292,38 +276,6 @@
     }
 },
 {
-    "model": "vng_api_common.jwtsecret",
-    "pk": 1,
-    "fields": {
-        "identifier": "zit",
-        "secret": "ztc-super-secret-key"
-    }
-},
-{
-    "model": "vng_api_common.jwtsecret",
-    "pk": 2,
-    "fields": {
-        "identifier": "zrc",
-        "secret": "zrc-to-ztc"
-    }
-},
-{
-    "model": "vng_api_common.jwtsecret",
-    "pk": 3,
-    "fields": {
-        "identifier": "drc",
-        "secret": "drc-to-ztc"
-    }
-},
-{
-    "model": "vng_api_common.jwtsecret",
-    "pk": 4,
-    "fields": {
-        "identifier": "brc",
-        "secret": "brc-to-ztc"
-    }
-},
-{
     "model": "datamodel.resultaattype",
     "pk": 1,
     "fields": {
@@ -336,6 +288,49 @@
         "archiefactietermijn": "P30D",
         "zaaktype": 1,
         "brondatum_archiefprocedure_afleidingswijze": "afgehandeld"
+    }
+},
+{
+    "model": "vng_api_common.jwtsecret",
+    "pk": 1,
+    "fields": {
+        "identifier": "demo",
+        "secret": "demo"
+    }
+},
+{
+    "model": "authorizations.authorizationsConfig",
+    "pk": 1,
+    "fields": {
+        "component": "ZTC",
+        "api_root": "http://localhost:8005/api/v1"
+    }
+},
+{
+    "model": "notifications.notificationsconfig",
+    "pk": 1,
+    "fields": {
+        "api_root": "http://localhost:8004/api/v1"
+    }
+},
+{
+    "model": "vng_api_common.apicredential",
+    "pk": 6,
+    "fields": {
+        "api_root": "http://localhost:8005/api/v1/",
+        "client_id": "demo",
+        "secret": "demo",
+        "user_id": "demo",
+        "user_representation": "demo"
+    }
+},
+{
+    "model": "authorizations.applicatie",
+    "pk": 1,
+    "fields": {
+        "client_ids": ["demo"],
+        "label": "demo",
+        "heeft_alle_autorisaties": true
     }
 }
 ]
