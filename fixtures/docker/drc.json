@@ -55,7 +55,7 @@
     "model": "vng_api_common.apicredential",
     "pk": 5,
     "fields": {
-        "api_root": "http://nc.vng:8000/api/v1/",
+        "api_root": "http://nrc.vng:8000/api/v1/",
         "client_id": "demo",
         "secret": "demo",
         "user_id": "demo",
@@ -85,7 +85,7 @@
     "model": "notifications.notificationsconfig",
     "pk": 1,
     "fields": {
-        "api_root": "http://nc.vng:8000/api/v1/"
+        "api_root": "http://nrc.vng:8000/api/v1/"
     }
 },
 

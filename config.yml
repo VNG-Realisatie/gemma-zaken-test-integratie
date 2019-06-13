@@ -47,7 +47,7 @@ orc:
   # auth:
   #   secret: orc-super-secret-key
 
-nc:
+nrc:
   scheme: http
   host: localhost
   port: 8004

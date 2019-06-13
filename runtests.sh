@@ -56,9 +56,9 @@ orc:
   host: orc.vng
   port: 8000
 
-nc:
+nrc:
   scheme: http
-  host: nc.vng
+  host: nrc.vng
   port: 8000
   auth:
     client_id: demo

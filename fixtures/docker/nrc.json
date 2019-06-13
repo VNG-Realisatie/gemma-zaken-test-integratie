@@ -74,7 +74,7 @@
     "model": "notifications.notificationsconfig",
     "pk": 1,
     "fields": {
-        "api_root": "http://nc.vng:8000/api/v1"
+        "api_root": "http://nrc.vng:8000/api/v1"
     }
 },
 {

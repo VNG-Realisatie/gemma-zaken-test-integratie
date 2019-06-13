@@ -16,7 +16,7 @@ _drc_client = Client('drc')
 _ztc_client = Client('ztc')
 _brc_client = Client('brc')
 _orc_client = Client('orc')
-_nc_client = Client('nc')
+_nrc_client = Client('nrc')
 _ac_client = Client('ac')
 
 
@@ -108,13 +108,13 @@ def orc_client():
 
 
 @pytest.fixture
-def nc_client():
+def nrc_client():
     # reset auth between tests
-    if hasattr(_nc_client.auth, '_credentials'):
-        claims = _nc_client._config.auth.claims.copy()
-        _nc_client.auth.claims = claims
-        del _nc_client.auth._credentials
-    return _nc_client
+    if hasattr(_nrc_client.auth, '_credentials'):
+        claims = _nrc_client._config.auth.claims.copy()
+        _nrc_client.auth.claims = claims
+        del _nrc_client.auth._credentials
+    return _nrc_client
 
 
 @pytest.fixture
