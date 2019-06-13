@@ -6,3 +6,5 @@ node_modules
 reports/
 .idea/
 env/
+
+docker-compose.override.yml

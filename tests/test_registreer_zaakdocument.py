@@ -113,3 +113,43 @@ class TestZaakInformatieObjecten:
             })
 
         assert exc_context.value.args[0]['status'] == 400
+
+    def test_delete_relation_drc(self, state, zrc_client, drc_client):
+        """
+        Test that deleting the relation in DRC also deletes the relation
+        'on the other end'.
+        """
+        # this is not allowed, since the relation still exists in ZRC where it
+        # needs to be removed first
+
+        with pytest.raises(ClientError) as exc_context:
+            drc_client.delete(
+                'enkelvoudiginformatieobject',
+                url=state.document['url']
+            )
+
+        assert exc_context.value.args[0]['status'] == 400
+
+    def test_delete_zaak_then_document(self, state, zrc_client, drc_client):
+        zrc_client.delete("zaak", url=state.zaak["url"])
+
+        # deletes must cascade
+        zios = zrc_client.list(
+            "zaakinformatieobject",
+            query_params={
+                "zaak": state.zaak["url"],
+                "informatieobject": state.document["url"]
+            }
+        )
+
+        assert not zios
+
+        # drc relations must be synced
+        oios = drc_client.list(
+            "objectinformatieobject",
+            query_params={
+                "informatieobject": state.document["url"],
+                "object": state.zaak["url"],
+            }
+        )
+        assert not oios
