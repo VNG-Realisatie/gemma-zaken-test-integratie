@@ -16,47 +16,65 @@ zrc:
   host: zrc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: zrc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
 
 drc:
   scheme: http
   host: drc.vng
   port: 8000
+  auth:
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
 
 ztc:
   scheme: http
   host: ztc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: ztc-super-secret-key
-    scopes:
-      - zds.scopes.zaaktypes.lezen
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
 
 brc:
   scheme: http
   host: brc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: brc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
 
 orc:
   scheme: http
   host: orc.vng
   port: 8000
 
-nc:
+nrc:
   scheme: http
-  host: nc.vng
+  host: nrc.vng
   port: 8000
   auth:
-    client_id: zit
-    secret: zit-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
+
+ac:
+  scheme: http
+  host: ac.vng
+  port: 8000
+  auth:
+    client_id: demo
+    secret: demo
+    user_id: docker
+    user_representation: docker
 EOL
 
 echo "Using config:"

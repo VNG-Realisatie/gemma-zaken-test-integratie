@@ -32,41 +32,50 @@ services:
     volumes:
       - orc_postgres_data:/var/lib/postgresql/data
 
-  nc_db:
+  nrc_db:
     image: postgres:10
     volumes:
-      - nc_postgres_data:/var/lib/postgresql/data
+      - nrc_postgres_data:/var/lib/postgresql/data
+
+  ac_db:
+    image: postgres:10
+    volumes:
+      - ac_postgres_data:/var/lib/postgresql/data
+
+  # task queues
+  nrc_rabbitmq:
+    image: rabbitmq:3.7-alpine
 
   # web
   zrc.vng:
-    image: vngr/gemma-zrc:0.13.1
+    image: vngr/gemma-zrc:0.16.0
     environment:
       - DJANGO_SETTINGS_MODULE=zrc.conf.docker
       - SECRET_KEY=c1zqz%y-s-$$63ca_abc8dmfjno#&pk!wy8k9f8c*4w@(whxy1n'
       - DB_HOST=zrc_db
+      - IS_HTTPS=0
     ports:
       - 8000:8000
     depends_on:
       - zrc_db
 
   drc.vng:
-    image: vngr/gemma-drc:0.10.0
+    image: vngr/gemma-drc:0.13.2
     environment:
       - DJANGO_SETTINGS_MODULE=drc.conf.docker
       - SECRET_KEY=h1kluf9r2yhcfr_i!fqb!srx=!u@!^b_gdl54=h0n15j34*+#=
       - DB_HOST=drc_db
-
-      - SITE_ID=2
       - IS_HTTPS=0
+      - SENDFILE_BACKEND=sendfile.backends.simple
     volumes:
-      - drc_media:/app/media
+      - drc_media:/app/private-media
     ports:
       - 8001:8000
     depends_on:
       - drc_db
 
   ztc.vng:
-    image: vngr/gemma-ztc:0.11.0
+    image: vngr/gemma-ztc:0.13.0
     environment:
       - DJANGO_SETTINGS_MODULE=ztc.conf.docker
       - SECRET_KEY=)lwxn07vp1+ru=yf^n+v4l&ij24l3vhhitw9vk4=0ix14ibmfj
@@ -78,11 +87,12 @@ services:
       - ztc_db
 
   brc.vng:
-    image: vngr/gemma-brc:0.9.0
+    image: vngr/gemma-brc:0.11.0
     environment:
       - DJANGO_SETTINGS_MODULE=brc.conf.docker
       - SECRET_KEY=dah&lsnfb^oymv*32)dr^(c9h1-chspxac%!2t=$$&g*b(spzu-
       - DB_HOST=brc_db
+      - IS_HTTPS=0
     ports:
       - 8003:8000
     depends_on:
@@ -99,17 +109,32 @@ services:
     depends_on:
       - orc_db
 
-  nc.vng:
-    image: vngr/gemma-notifications:0.5.0
+  nrc.vng:
+    image: vngr/gemma-notifications:0.6.3
     environment:
       - DJANGO_SETTINGS_MODULE=notifications.conf.docker
       - SECRET_KEY=rt@lin*q6@wy)xd**5#xz)1p@sqcfj*@w77wn-in2+1zq6*a)m
-      - DB_HOST=nc_db
+      - DB_HOST=nrc_db
+      - IS_HTTPS=0
+      - PUBLISH_BROKER_URL=amqp://guest:guest@nrc_rabbitmq:5672/%2F
+      - CELERY_BROKER_URL=amqp://guest:guest@nrc_rabbitmq:5672//
+      - CELERY_RESULT_BACKEND=amqp://guest:guest@nrc_rabbitmq:5672//
     ports:
       - 8004:8000
     depends_on:
-      - nc_db
+      - nrc_db
+      - nrc_rabbitmq
 
+  ac.vng:
+    image: vngr/gemma-autorisatiecomponent:0.2.5
+    environment:
+      - DJANGO_SETTINGS_MODULE=ac.conf.docker
+      - SECRET_KEY=8u9chcd4g1%i5z)u@s6#c#0u%s_gggx*915w(yzrf#awezmu^i
+      - DB_HOST=ac_db
+    ports:
+      - 8005:8000
+    depends_on:
+      - ac_db
 
 volumes:
   zrc_postgres_data:
@@ -118,4 +143,5 @@ volumes:
   ztc_postgres_data:
   brc_postgres_data:
   orc_postgres_data:
-  nc_postgres_data:
+  nrc_postgres_data:
+  ac_postgres_data:

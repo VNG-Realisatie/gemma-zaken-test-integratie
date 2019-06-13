@@ -5,36 +5,40 @@ zrc:
   host: localhost
   port: 8000
   auth:
-    client_id: zit
-    secret: zrc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest
 
 drc:
   scheme: http
   host: localhost
   port: 8001
-  # auth:
-  #   secret: drc-super-secret-key
-  #   scopes: []
+  auth:
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest
 
 ztc:
   scheme: http
   host: localhost
   port: 8002
   auth:
-    client_id: zit
-    secret: ztc-super-secret-key
-    scopes:
-      - zds.scopes.zaaktypes.lezen
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest
 
 brc:
   scheme: http
   host: localhost
   port: 8003
   auth:
-    client_id: zit
-    secret: brc-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest
 
 orc:
   scheme: http
@@ -42,13 +46,23 @@ orc:
   port: 8010
   # auth:
   #   secret: orc-super-secret-key
-  #   scopes: []
 
-nc:
+nrc:
   scheme: http
   host: localhost
   port: 8004
   auth:
-    client_id: zit
-    secret: zit-super-secret-key
-    scopes: []
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest
+
+ac:
+  scheme: http
+  host: localhost
+  port: 8005
+  auth:
+    client_id: demo
+    secret: demo
+    user_id: pytest
+    user_representation: pytest

@@ -18,36 +18,28 @@ from .constants import CATALOGUS_UUID, ZAAKTYPE_UUID
 @pytest.mark.incremental
 class TestNotificatie:
 
-    def test_zrc_create_kanaal(self, state, nc_client):
+    def test_zrc_create_kanaal(self, state, nrc_client):
         # can't run django command register_kanaal
         # therefore test Client.request under this command
-        nc_client.auth.set_claims(
-            scopes=['notificaties.scopes.publiceren']
-        )
         # check if kanaal exists - for local testing:
         kanaal_naam = 'zaken'
-        kanalen = nc_client.list('kanaal', query_params={'naam': kanaal_naam})
+        kanalen = nrc_client.list('kanaal', query_params={'naam': kanaal_naam})
 
         if kanalen:
             kanaal = kanalen[0]
         else:
-            kanaal = nc_client.create('kanaal', {'naam': kanaal_naam})
+            kanaal = nrc_client.create('kanaal', {'naam': kanaal_naam})
 
         assert kanaal['naam'] == kanaal_naam
         assert 'url' in kanaal
         state.kanaal = kanaal
 
-    def test_drc_subscriber_to_zaken_kanaal(self, state, nc_client, drc_client):
+    def test_drc_subscriber_to_zaken_kanaal(self, state, nrc_client, drc_client):
         # can't add Subscription in the drc admin
         # therefore test Client.request under this command
-        nc_client.auth.set_claims(
-            scopes=['notificaties.scopes.consumeren']
-        )
-
         drc_auth = ClientAuth(
-            client_id='nc',
-            secret='nc-to-drc',
-            scopes=['notificaties.scopes.publiceren']
+            client_id='demo',
+            secret='demo',
         )
 
         # can't read url from spec, because it isn't added to schema
@@ -68,12 +60,12 @@ class TestNotificatie:
         }
 
         # check if subscriber exists - for local testing:
-        subs = [sub for sub in nc_client.list('abonnement') if sub['callbackUrl'] == callback_url]
+        subs = [sub for sub in nrc_client.list('abonnement') if sub['callbackUrl'] == callback_url]
 
         if subs:
             subscriber = subs[0]
         else:
-            subscriber = nc_client.create('abonnement', data=data)
+            subscriber = nrc_client.create('abonnement', data=data)
 
         assert 'url' in subscriber
         state.subscriber = subscriber
@@ -87,11 +79,6 @@ class TestNotificatie:
         """
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
-
-        zrc_client.auth.set_claims(
-            scopes=['zds.scopes.zaken.aanmaken'],
-            zaaktypes=[zaaktype['url']]
-        )
 
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],

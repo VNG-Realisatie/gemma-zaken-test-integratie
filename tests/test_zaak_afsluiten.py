@@ -18,11 +18,6 @@ class TestZaakAfsluiten:
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
 
-        zrc_client.auth.set_claims(
-            scopes=['zds.scopes.zaken.aanmaken'],
-            zaaktypes=[zaaktype['url']]
-        )
-
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
             'bronorganisatie': '517439943',
@@ -36,14 +31,6 @@ class TestZaakAfsluiten:
         state.zaak = zaak
 
     def test_zet_initiele_status(self, state, zrc_client, ztc_client):
-        zrc_client.auth.set_claims(
-            scopes=[
-                'zds.scopes.zaken.lezen',
-                'zds.scopes.statussen.toevoegen'
-            ],
-            zaaktypes=[state.zaaktype['url']]
-        )
-
         statustype = ztc_client.retrieve(
             'statustype', catalogus_uuid=CATALOGUS_UUID,
             zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID
@@ -132,11 +119,6 @@ class TestZaakAfsluitenMetInformatieObjecten:
         zaaktype = ztc_client.retrieve('zaaktype', catalogus_uuid=CATALOGUS_UUID, uuid=ZAAKTYPE_UUID)
         state.zaaktype = zaaktype
 
-        zrc_client.auth.set_claims(
-            scopes=['zds.scopes.zaken.aanmaken'],
-            zaaktypes=[zaaktype['url']]
-        )
-
         zaak = zrc_client.create('zaak', {
             'zaaktype': zaaktype['url'],
             'bronorganisatie': '517439943',
@@ -172,28 +154,20 @@ class TestZaakAfsluitenMetInformatieObjecten:
         state.document = document
 
         # relateer zaak en io
-        oio = drc_client.create('objectinformatieobject', {
+        zio = zrc_client.create('zaakinformatieobject', {
             'informatieobject': state.document['url'],
-            'object': state.zaak['url'],
-            'objectType': 'zaak',
-            'registratiedatum': '2018-09-12T16:25:36+0200',
+            'zaak': state.zaak['url'],
+            'titel': 'some titel',
+            'beschrijving': 'some beschrijving',
+            'aardRelatieWeergave': 'hoort_bij'
         })
-
-        assert 'url' in oio
+        assert 'url' in zio
 
     def test_zet_initiele_status(self, state, zrc_client, ztc_client):
         """
         Test dat een status anders dan de eindstatus zetten kan zonder de indicatie
         te zetten.
         """
-        zrc_client.auth.set_claims(
-            scopes=[
-                'zds.scopes.zaken.lezen',
-                'zds.scopes.statussen.toevoegen'
-            ],
-            zaaktypes=[state.zaaktype['url']]
-        )
-
         statustype = ztc_client.retrieve(
             'statustype', catalogus_uuid=CATALOGUS_UUID,
             zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_UUID
@@ -212,14 +186,6 @@ class TestZaakAfsluitenMetInformatieObjecten:
         assert 'url' in status
 
     def test_zet_eind_status_validatiefout(self, state, zrc_client, ztc_client):
-        zrc_client.auth.set_claims(
-            scopes=[
-                'zds.scopes.zaken.lezen',
-                'zds.scopes.statussen.toevoegen'
-            ],
-            zaaktypes=[state.zaaktype['url']]
-        )
-
         statustype = ztc_client.retrieve(
             'statustype', catalogus_uuid=CATALOGUS_UUID,
             zaaktype_uuid=ZAAKTYPE_UUID, uuid=STATUSTYPE_2_UUID
@@ -237,7 +203,7 @@ class TestZaakAfsluitenMetInformatieObjecten:
             })
 
         assert exc_context.value.args[0]['status'] == 400
-        assert exc_context.value.args[0]['invalid-params'][0]['code'] == 'indicatiegebruiksrecht-unset'
+        assert exc_context.value.args[0]['invalidParams'][0]['code'] == 'indicatiegebruiksrecht-unset'
 
     def test_zet_resultaat(self, state, zrc_client, ztc_client):
         """
@@ -263,21 +229,21 @@ class TestZaakAfsluitenMetInformatieObjecten:
         assert 'url' in resultaat
 
     def test_update_indicatiegebruiksrecht(self, state, zrc_client, drc_client):
+        document_lock = drc_client.request(
+            f"{state.document['url']}/lock",
+            'enkelvoudiginformatieobject_lock',
+            method='POST'
+        )
+
         document = drc_client.partial_update(
             'enkelvoudiginformatieobject',
-            {'indicatieGebruiksrecht': False},
+            {'indicatieGebruiksrecht': False,
+             'lock': document_lock['lock']},
             uuid=get_uuid(state.document)
         )
         assert document['indicatieGebruiksrecht'] is False
         state.document = document
 
-        zrc_client.auth.set_claims(
-            scopes=[
-                'zds.scopes.zaken.lezen',
-                'zds.scopes.statussen.toevoegen'
-            ],
-            zaaktypes=[state.zaaktype['url']]
-        )
         status = zrc_client.create('status', {
             'zaak': state.zaak['url'],
             'statusType': state.statustype_2['url'],

@@ -45,7 +45,7 @@ until curl -sSf http://localhost:8003/ > /dev/null; do
 done
 
 until curl -sSf http://localhost:8004/ > /dev/null; do
-    >&2 echo "Waiting until NC is up..."
+    >&2 echo "Waiting until NRC is up..."
     sleep 1
 done
 
@@ -61,7 +61,7 @@ done
 #     exec -u postgres zrc_db \
 #         update-postgis.sh
 
-FIXTURES=(zrc drc ztc brc nc)
+FIXTURES=(zrc drc ztc brc nrc ac)
 
 # load fixtures in parallel
 for service in "${FIXTURES[@]}"; do
@@ -70,7 +70,7 @@ for service in "${FIXTURES[@]}"; do
         -f ./docker-compose.yml \
         -f docker-compose.jenkins.yml \
         run $service.vng \
-            python src/manage.py loaddata fixtures/$service.json &
+            python src/manage.py loaddata fixtures/docker/$service.json &
 
 done
 

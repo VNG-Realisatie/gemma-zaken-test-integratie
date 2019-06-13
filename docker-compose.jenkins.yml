@@ -25,10 +25,15 @@ services:
     volumes:
       - orc_logs:/app/log
 
-  nc.vng:
+  nrc.vng:
     volumes:
       - ${WORKSPACE}/fixtures:/app/fixtures
-      - nc_logs:/app/log
+      - nrc_logs:/app/log
+
+  ac.vng:
+    volumes:
+      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ac_logs:/app/log
 
   tests:
     build:
@@ -41,7 +46,8 @@ services:
       - ztc.vng
       - brc.vng
       - orc.vng
-      - nc.vng
+      - nrc.vng
+      - ac.vng
 
 volumes:
   zrc_logs:
@@ -49,4 +55,5 @@ volumes:
   ztc_logs:
   brc_logs:
   orc_logs:
-  nc_logs:
+  nrc_logs:
+  ac_logs:
