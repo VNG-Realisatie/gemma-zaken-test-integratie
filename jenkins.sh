@@ -61,22 +61,6 @@ done
 #     exec -u postgres zrc_db \
 #         update-postgis.sh
 
-FIXTURES=(zrc drc ztc brc nrc ac)
-
-# load fixtures in parallel
-for service in "${FIXTURES[@]}"; do
-    echo "Loading fixtures for $service"
-    docker-compose \
-        -f ./docker-compose.yml \
-        -f docker-compose.jenkins.yml \
-        run $service.vng \
-            python src/manage.py loaddata fixtures/docker/$service.json &
-
-done
-
-# wait until all fixtures are loaded
-wait
-
 # even on errors, continue because we need to bring down the containers
 set +e
 

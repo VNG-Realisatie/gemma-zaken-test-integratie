@@ -3,22 +3,22 @@ version: '3.4'
 services:
   zrc.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/zrc.json:/app/fixtures/zrc.json
       - zrc_logs:/app/log
 
   drc.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/drc.json:/app/fixtures/drc.json
       - drc_logs:/app/log
 
   ztc.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/ztc.json:/app/fixtures/ztc.json
       - ztc_logs:/app/log
 
   brc.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/brc.json:/app/fixtures/brc.json
       - brc_logs:/app/log
 
   orc.vng:
@@ -27,12 +27,12 @@ services:
 
   nrc.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/nrc.json:/app/fixtures/nrc.json
       - nrc_logs:/app/log
 
   ac.vng:
     volumes:
-      - ${WORKSPACE}/fixtures:/app/fixtures
+      - ${WORKSPACE}/fixtures/docker/ac.json:/app/fixtures/ac.json
       - ac_logs:/app/log
 
   tests:
